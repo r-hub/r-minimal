@@ -1,0 +1,87 @@
+#! /usr/bin/env sh
+
+usage() {
+    echo "Usage: $0 [ -c | -d ] [ -a pkgs ] [ -t temp-pkgs ] REMOTES ..."
+    exit 2
+}
+
+error() {
+    >&2 echo $1
+    exit 2
+}
+
+make_description() {
+    remote="$1"
+    if echo $remote | grep -q -E '^[a-zA-Z0-9\.]+$'; then
+        pkg=$remote
+    else
+        pkg=`echo $remote | sed 's/^[^\/]*\///'`
+    fi
+    tmp=`mktemp -d`
+
+    desc="$tmp/DESCRIPTION"
+    echo >> $desc "Package: installrDummyPkg"
+    echo >> $desc "Version: 1.0.0"
+    echo >> $desc "Imports: $pkg"
+    if [[ "$pkg" != "$remote" ]] ; then
+        echo >> $desc "Remotes: $remote"
+    fi
+
+    echo "$tmp"
+}
+
+while getopts 'cda:t:?h' o
+do
+    case $o in
+        a) APKG_FIN=$OPTARG ; shift ;;
+        t) APKG_TMP=$OPTARG ; shift ;;
+        c) APKG_COMPILERS=true ;;
+        d) APKG_COMPILERS_TMP=true ;;
+        h|?) usage ;;
+    esac
+    shift
+done
+
+[[ -f /usr/local/bin/remotes.R ]] || error "Cannot find remotes.R! :("
+
+APKG_GCC="gcc musl-dev g++"
+
+if [[ -n "$APKG_COMPILERS"  ]]; then
+    APKG_FIN="$APKG_FIN $APKG_GCC"
+fi
+
+if [[ -n "$APKG_COMPILERS_TMP" ]]; then
+    APKG_TMP="$APKG_TMP $APKG_GCC"
+fi
+
+echo
+echo --------------------------------------
+[[ -n "$APKG_FIN" ]] && echo Adding "$APKG_FIN"
+[[ -n "$APKG_TMP" ]] && echo Temporarily adding "$APKG_TMP"
+apk add $APKG_FIN $APKG_TMP
+
+export R_REMOTES_STANDALONE="true"
+
+for remote in "$@"
+do
+    echo
+    echo --------------------------------------
+    echo Installing "$remote"
+    dir=`make_description "$remote"`
+    (
+        cd $dir
+        R -q -e 'source("/usr/local/bin/remotes.R"); remotes$install_deps()'
+    ) || error "Failed to install $remote"
+    rm -rf "$dir"
+done
+
+echo
+echo --------------------------------------
+[[ -n "$APKG_TMP" ]] && echo Removing "$APKG_TMP"
+apk del $APKG_TMP
+
+echo
+echo --------------------------------------
+echo Cleaning up cache
+
+rm -rf /var/cache/apk/*
