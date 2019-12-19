@@ -95,10 +95,14 @@ rmarkdown       | `installr -d rmarkdown`                                   | 19
 
 ## Known failures
 
-* The fs package does not build on Alpine Linux:
-  https://github.com/r-lib/fs/issues/210
-  So other packages depending on it do not work, either, e.g. devtools
-  or mlflow.
+* The CRAN version (version 1.3.1) of the fs package does not build on
+  Alpine Linux: https://github.com/r-lib/fs/issues/210
+  This is fixed in the development version on GitHub, so install from there:
+  ```
+  installr -d r-lib/fs
+  ```
+  If you need to install a package that depends on fs, then install fs
+  first.
 
 * The xgboost package does not compile on Alpine Linux:
   https://github.com/dmlc/xgboost/issues/5131
