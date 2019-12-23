@@ -1,6 +1,8 @@
 
 FROM alpine:3.10.3
 
+ENV _R_SHLIB_STRIP_=true
+
 RUN apk update &&                                                        \
     apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
     curl-dev make perl &&                                                \
