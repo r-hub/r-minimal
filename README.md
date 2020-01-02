@@ -135,6 +135,10 @@ rmarkdown       | `installr -d rmarkdown`                                   | 19
 * The xgboost package does not compile on Alpine Linux:
   https://github.com/dmlc/xgboost/issues/5131
 
+* The arrow package is hard to install, because Alpine Linux does not have
+  the required libraries. Please see
+  https://github.com/r-hub/r-minimal/issues/7 for the details.
+
 ## License
 
 See https://www.r-project.org/Licenses/ for the R licenses
