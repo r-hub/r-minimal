@@ -1,0 +1,37 @@
+name: Docker build
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v1
+
+    - name: Build the Docker image
+      run: docker build -t rhub/r-minimal .
+
+    - name: Log in to Docker Hub
+      run: echo ${DOCKER_HUB_TOKEN} | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin docker.io
+      env:
+        DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+
+    - name: Push it to Docker Hub
+      run: docker push docker.io/rhub/r-minimal:latest
+
+    - name: Tag it for GitHub Packages
+      run: docker tag rhub/r-minimal docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
+
+    - name: Log in to GitHub Packages
+      run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_USERNAME} --password-stdin docker.pkg.github.com
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+
+    - name: Push it to GitHub Packages
+      run: docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
