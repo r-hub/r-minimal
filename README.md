@@ -36,6 +36,34 @@ development:
 * No translations, only English.
 * The image does not have C, C++ or Fortran compilers.
 
+## Usage
+
+Get the image from
+[Docker Hub](https://hub.docker.com/repository/docker/rhub/r-minimal):
+
+```
+docker pull docker.io/rhub/r-minimal:latest
+```
+
+or from [GitHub Packages](https://github.com/r-hub/r-minimal/packages/92808?version=latest):
+
+```
+docker pull docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
+```
+
+## Supported R versions
+
+Currently we support the last patch version of the last five minor R
+versions. The `latest` tag always uses the last R release.
+
+image  | tags
+------ | ----
+[R 3.6.2](https://github.com/r-hub/r-minimal/packages/92808?version=3.6.2)  | `3.6.2`, `3.6`, `latest`
+[R 3.5.3](https://github.com/r-hub/r-minimal/packages/92808?version=3.5.3)  | `3.5.3`, `3.5`
+[R 3.4.4](https://github.com/r-hub/r-minimal/packages/92808?version=3.4.4)  | `3.4.4`, `3.4`
+[R 3.3.3](https://github.com/r-hub/r-minimal/packages/92808?version=3.3.3)  | `3.3.3`, `3.3`
+[R 3.2.5](https://github.com/r-hub/r-minimal/packages/92808?version=3.2.5)  | `3.2.5`, `3.2`
+
 ## Dockerfile examples
 
 One of our main goals is to be able to use `rhub/r-minimal` as a base

@@ -54,7 +54,7 @@ jobs:
         docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}
         if [[ "$R_LATEST" == "$R_VERSION" ]]; then
           docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:latest
-          docker tag docker.io/rhub/r-minimal:latest docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
+          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
           docker push docker.io/rhub/r-minimal:latest
           docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
         fi
