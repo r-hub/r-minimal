@@ -7,13 +7,25 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    name: ${{ matrix.config.r }}
+    env:
+      R_LATEST: 3.6.2
+      R_VERSION: ${{ matrix.config.r }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { r: '3.6.2' }
+        - { r: '3.5.3' }
 
     steps:
 
     - uses: actions/checkout@v1
 
     - name: Build the Docker image
-      run: docker build -t rhub/r-minimal .
+      run: docker build --build-arg R_VERSION=${R_VERSION} -t docker.io/rhub/r-minimal:${R_VERSION} .
 
     - name: Log in to Docker Hub
       run: echo ${DOCKER_HUB_TOKEN} | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin docker.io
@@ -21,17 +33,25 @@ jobs:
         DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
         DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
 
-    - name: Push it to Docker Hub
-      run: docker push docker.io/rhub/r-minimal:latest
-
-    - name: Tag it for GitHub Packages
-      run: docker tag rhub/r-minimal docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
-
     - name: Log in to GitHub Packages
       run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_USERNAME} --password-stdin docker.pkg.github.com
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
 
-    - name: Push it to GitHub Packages
-      run: docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
+    - name: Push it to Docker Hub, GitHub Packages
+      run: |
+        R_MAJOR=`echo ${R_VERSION} | sed 's/[.][0-9][0-9]*$//'`
+        docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:${R_MAJOR}
+        docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION}
+        docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}
+        docker push docker.io/rhub/r-minimal:${R_VERSION}
+        docker push docker.io/rhub/r-minimal:${R_MAJOR}
+        docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION}
+        docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}
+        if [[ "$R_LATEST" == "$R_VERSION" ]]; then
+          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:latest
+          docker tag docker.io/rhub/r-minimal:latest docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
+          docker push docker.io/rhub/r-minimal:latest
+          docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
+        fi

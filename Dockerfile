@@ -3,21 +3,23 @@ FROM alpine:3.10.3
 
 ENV _R_SHLIB_STRIP_=true
 
+ARG R_VERSION=3.6.2
+
 RUN apk update &&                                                        \
     apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
     curl-dev make perl &&                                                \
 ##
-    wget https://cran.r-project.org/src/base/R-3/R-3.6.2.tar.gz &&       \
-    tar xzf R-3.6.2.tar.gz &&                                            \
+    wget https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz && \
+    tar xzf R-${R_VERSION}.tar.gz &&                                     \
 ##
-    cd R-3.6.2 &&                                                        \
+    cd R-${R_VERSION} &&                                                 \
     CXXFLAGS=-D__MUSL__ ./configure --with-recommended-packages=no       \
         --with-readline=no --with-x=no --enable-java=no                  \
         --disable-openmp &&                                              \
     make &&                                                              \
     make install &&                                                      \
 ##
-    rm -rf /R-3.6.2* &&                                                  \
+    rm -rf /R-${R_VERSION}* &&                                           \
 ##
     strip -x /usr/local/lib/R/bin/exec/R &&                              \
     strip -x /usr/local/lib/R/lib/* &&                                   \
