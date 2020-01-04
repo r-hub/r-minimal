@@ -1,6 +1,8 @@
 
 FROM alpine:3.10.3
 
+MAINTAINER "r-hub admin" admin@r-hub.io
+
 ENV _R_SHLIB_STRIP_=true
 
 ARG R_VERSION=3.6.2
