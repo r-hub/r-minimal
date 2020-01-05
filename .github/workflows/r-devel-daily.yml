@@ -2,7 +2,7 @@ name: Daily R devel build
 
 on:
   schedule:
-    - cron:  '30 14 * * *'
+    - cron:  '55 14 * * *'
 
 jobs:
 
