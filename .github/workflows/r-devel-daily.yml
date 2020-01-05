@@ -43,7 +43,7 @@ jobs:
         docker push docker.io/rhub/r-minimal:${R_VERSION}
         docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION}
         if [[ "$R_VERSION" == "devel" ]]; then
-          ;; # do other tags for devel
+          true
         elif [[ "$R_VERSION" == "patched" ]]; then
           R_VERSION_NUMBER=`docker run --rm docker.io/rhub/r-minimal:${R_VERSION} R --slave -e 'cat(format(getRversion()))'`
           R_MAJOR=`echo ${R_VERSION_NUMBER} | sed 's/[.][0-9][0-9]*$//'`
