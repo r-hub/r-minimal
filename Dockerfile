@@ -13,6 +13,8 @@ RUN apk update &&                                                        \
 ##
     if [[ "$R_VERSION" == "devel" ]]; then                               \
         wget https://stat.ethz.ch/R/daily/R-devel.tar.gz;                \
+    elif [[ "$R_VERSION" == "patched" ]]; then                           \
+        wget https://stat.ethz.ch/R/daily/R-patched.tar.gz;              \
     else                                                                 \
         wget https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz; \
     fi &&                                                                \

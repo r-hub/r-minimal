@@ -18,6 +18,7 @@ jobs:
       matrix:
         config:
         - { r: 'devel' }
+        - { r: 'patched' }
         - { r: '3.6.2' }
         - { r: '3.5.3' }
         - { r: '3.4.4' }
@@ -45,14 +46,29 @@ jobs:
 
     - name: Push it to Docker Hub, GitHub Packages
       run: |
-        R_MAJOR=`echo ${R_VERSION} | sed 's/[.][0-9][0-9]*$//'`
-        docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:${R_MAJOR}
         docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION}
-        docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}
         docker push docker.io/rhub/r-minimal:${R_VERSION}
-        docker push docker.io/rhub/r-minimal:${R_MAJOR}
         docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION}
-        docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}
+        if [[ "$R_VERSION" == "devel" ]]; then
+          ;; # do other tags for devel
+        elif [[ "$R_VERSION" == "patched" ]]; then
+          R_VERSION_NUMBER=`docker run --rm docker.io/rhub/r-minimal:${R_VERSION} R --slave -e 'cat(format(getRversion()))'`
+          R_MAJOR=`echo ${R_VERSION_NUMBER} | sed 's/[.][0-9][0-9]*$//'`
+          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:${R_VERSION_NUMBER}-patched
+          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION_NUMBER}-patched
+          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:${R_MAJOR}-patched
+          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}-patched
+          docker push docker.io/rhub/r-minimal:${R_VERSION_NUMBER}-patched
+          docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION_NUMBER}-patched
+          docker push docker.io/rhub/r-minimal:${R_MAJOR}-patched
+          docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}-patched
+        else
+          R_MAJOR=`echo ${R_VERSION} | sed 's/[.][0-9][0-9]*$//'`
+          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:${R_MAJOR}
+          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}
+          docker push docker.io/rhub/r-minimal:${R_MAJOR}
+          docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}
+        fi
         if [[ "$R_LATEST" == "$R_VERSION" ]]; then
           docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:latest
           docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
