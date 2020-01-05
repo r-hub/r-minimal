@@ -1,28 +1,15 @@
-name: Docker build, all supported versions
+name: Daily R devel build
 
-on: [push]
+on:
+  schedule:
+    - cron:  '30 14 * * *'
 
 jobs:
 
-  build:
-
+  daily-r-devel:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
-    name: ${{ matrix.config.r }}
     env:
-      R_LATEST: 3.6.2
-      R_VERSION: ${{ matrix.config.r }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-        - { r: 'devel' }
-        - { r: '3.6.2' }
-        - { r: '3.5.3' }
-        - { r: '3.4.4' }
-        - { r: '3.3.3' }
-        - { r: '3.2.5' }
+      R_VERSION: devel
 
     steps:
 
