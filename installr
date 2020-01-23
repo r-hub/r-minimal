@@ -15,7 +15,7 @@ make_description() {
     if echo $remote | grep -q -E '^[a-zA-Z0-9\.]+$'; then
         pkg=$remote
     else
-        pkg=`echo $remote | sed 's/^[^\/]*\///'`
+        pkg=`echo $remote | awk -F / '{print $(NF)}' | sed -e 's/[@].*//'
     fi
     tmp=`mktemp -d`
 
