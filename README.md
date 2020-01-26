@@ -134,7 +134,10 @@ rmarkdown       | `installr -d rmarkdown`                                   | 19
   If you need to install a package that depends on fs, then install fs
   first.
 
-* The xgboost package does not compile on Alpine Linux:
+* The current CRAN version (0.90.0.2) of the xgboost package does not
+  compile on Alpine Linux. The development version on GitHub does,
+  but `installr` cannot install that until Issue #4 is fixed. Some
+  details:
   https://github.com/dmlc/xgboost/issues/5131
 
 * The arrow package is hard to install, because Alpine Linux does not have
