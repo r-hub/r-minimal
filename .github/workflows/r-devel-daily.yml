@@ -1,15 +1,13 @@
-name: Daily R devel build
+name: Daily R devel and R patched build
 
 on:
   schedule:
-    - cron:  '55 14 * * *'
+    - cron:  '55 6 * * *'
 
 jobs:
 
   daily-builds:
     runs-on: ubuntu-latest
-    env:
-      R_VERSION: ${{ matrix.config.r }}
 
     strategy:
       fail-fast: false
@@ -19,52 +17,15 @@ jobs:
         - { r: 'patched' }
 
     steps:
-
     - uses: actions/checkout@v1
-
-    - name: Build the Docker image
-      run: docker build --build-arg R_VERSION=${R_VERSION} -t docker.io/rhub/r-minimal:${R_VERSION} .
-
-    - name: Log in to Docker Hub
-      run: echo ${DOCKER_HUB_TOKEN} | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin docker.io
-      env:
-        DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
-        DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-
-    - name: Log in to GitHub Packages
-      run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_USERNAME} --password-stdin docker.pkg.github.com
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-
-    - name: Push it to Docker Hub, GitHub Packages
-      run: |
-        docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION}
-        docker push docker.io/rhub/r-minimal:${R_VERSION}
-        docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION}
-        if [[ "$R_VERSION" == "devel" ]]; then
-          true
-        elif [[ "$R_VERSION" == "patched" ]]; then
-          R_VERSION_NUMBER=`docker run --rm docker.io/rhub/r-minimal:${R_VERSION} R --slave -e 'cat(format(getRversion()))'`
-          R_MAJOR=`echo ${R_VERSION_NUMBER} | sed 's/[.][0-9][0-9]*$//'`
-          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:${R_VERSION_NUMBER}-patched
-          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION_NUMBER}-patched
-          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:${R_MAJOR}-patched
-          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}-patched
-          docker push docker.io/rhub/r-minimal:${R_VERSION_NUMBER}-patched
-          docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_VERSION_NUMBER}-patched
-          docker push docker.io/rhub/r-minimal:${R_MAJOR}-patched
-          docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}-patched
-        else
-          R_MAJOR=`echo ${R_VERSION} | sed 's/[.][0-9][0-9]*$//'`
-          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:${R_MAJOR}
-          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}
-          docker push docker.io/rhub/r-minimal:${R_MAJOR}
-          docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:${R_MAJOR}
-        fi
-        if [[ "$R_LATEST" == "$R_VERSION" ]]; then
-          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.io/rhub/r-minimal:latest
-          docker tag docker.io/rhub/r-minimal:${R_VERSION} docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
-          docker push docker.io/rhub/r-minimal:latest
-          docker push docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
-        fi
+    - name: Docker build
+      uses: r-hub/actions/docker-build@master
+      with:
+        r_version: ${{ matrix.config.r }}
+        docker_name: rhub/r-minimal
+        github_name: r-hub/r-minimal/r-minimal
+        docker_username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        docker_password: ${{ secrets.DOCKER_HUB_TOKEN }}
+        github_username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        extra_tags: ${{ matrix.config.extra_tags }}
