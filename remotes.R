@@ -3828,7 +3828,7 @@ remotes <- local({
       message("Downloading package from url: ", x$url) # nocov
     }
   
-    ext <- if (grepl("\\.tar\\.gz$", x$url)) "tar.gz" else file_ext(x$url)
+    ext <- if (grepl("\\.tar\\.gz$", x$url)) "tar.gz" else tools::file_ext(x$url)
   
     bundle <- tempfile(fileext = paste0(".", ext))
     download(bundle, x$url)
@@ -5155,7 +5155,7 @@ remotes <- local({
   }
   
   is_binary_pkg <- function(x) {
-    file_ext(x) %in% c("tgz", "zip")
+    tools::file_ext(x) %in% c("tgz", "zip")
   }
   
   format_str <- function(x, width = Inf, trim = TRUE, justify = "none", ...) {
@@ -5257,6 +5257,7 @@ remotes <- local({
   }
 
   list(
-    install_deps = install_deps
+    install_deps = install_deps,
+    install_local = install_local
   )
 })
