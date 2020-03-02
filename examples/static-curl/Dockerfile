@@ -54,3 +54,8 @@ RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' >> ~/.Rprofi
 RUN R -q -e 'download.packages("curl", ".")'
 
 RUN R CMD INSTALL --build curl_*.tar.gz
+
+# only keep the package ---------------------------
+
+FROM rhub/r-minimal
+COPY --from=0 /root/curl_*linux*tar.gz ./
