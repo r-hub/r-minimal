@@ -125,15 +125,6 @@ rmarkdown       | `installr -d rmarkdown`                                   | 19
 
 ## Known failures
 
-* The CRAN version (version 1.3.1) of the fs package does not build on
-  Alpine Linux: https://github.com/r-lib/fs/issues/210
-  This is fixed in the development version on GitHub, so install from there:
-  ```
-  installr -d r-lib/fs
-  ```
-  If you need to install a package that depends on fs, then install fs
-  first.
-
 * The current CRAN version (0.90.0.2) of the xgboost package does not
   compile on Alpine Linux. The development version on GitHub does,
   but `installr` cannot install that until Issue #4 is fixed. Some
