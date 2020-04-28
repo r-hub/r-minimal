@@ -1,5 +1,7 @@
 
-FROM rhub/r-minimal
+ARG R_MAJOR=3.6
+
+FROM rhub/r-minimal:${R_MAJOR}
 
 WORKDIR /root
 
