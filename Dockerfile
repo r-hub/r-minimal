@@ -9,14 +9,14 @@ ARG R_VERSION=4.0.0
 
 RUN apk update &&                                                        \
     apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
-    curl-dev make perl &&                                                \
+    pcre2-dev curl-dev make perl &&                                      \
 ##
     if [[ "$R_VERSION" == "devel" ]]; then                               \
         wget https://stat.ethz.ch/R/daily/R-devel.tar.gz;                \
     elif [[ "$R_VERSION" == "patched" ]]; then                           \
         wget https://stat.ethz.ch/R/daily/R-patched.tar.gz;              \
     else                                                                 \
-        wget https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz; || \
+        wget https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz || \
         wget https://cran.r-project.org/src/base/R-4/R-${R_VERSION}.tar.gz; \
     fi &&                                                                \
     tar xzf R-${R_VERSION}.tar.gz &&                                     \
