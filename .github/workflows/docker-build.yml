@@ -16,11 +16,11 @@ jobs:
         config:
         - { r: 'devel' }
         - { r: 'patched' }
-        - { r: '3.6.3', extra_tags: 'latest' }
+        - { r: '4.0.0', extra_tags: 'latest' }
+        - { r: '3.6.3' }
         - { r: '3.5.3' }
         - { r: '3.4.4' }
         - { r: '3.3.3' }
-        - { r: '3.2.5' }
 
     steps:
     - uses: actions/checkout@v1
