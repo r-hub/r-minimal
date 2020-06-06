@@ -5,7 +5,7 @@ MAINTAINER "r-hub admin" admin@r-hub.io
 
 ENV _R_SHLIB_STRIP_=true
 
-ARG R_VERSION=4.0.0
+ARG R_VERSION=4.0.1
 
 RUN apk update &&                                                        \
     apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
