@@ -26,7 +26,6 @@ development:
 
 * Recommended R packages are not installed.
 * Documentation is not included.
-* No readline library support.
 * No X11 support.
 * No Java support.
 * No OpenMP support.

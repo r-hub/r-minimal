@@ -11,7 +11,7 @@ WORKDIR /root
 
 RUN apk update
 RUN apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
-    pcre2-dev curl-dev make perl
+    pcre2-dev curl-dev make perl readline-dev
 
 RUN if [[ "$R_VERSION" == "devel" ]]; then                               \
         wget https://stat.ethz.ch/R/daily/R-devel.tar.gz;                \
@@ -24,7 +24,7 @@ RUN tar xzf R-${R_VERSION}.tar.gz
 
 RUN cd R-${R_VERSION} &&                                                 \
     CXXFLAGS=-D__MUSL__ ./configure --with-recommended-packages=no       \
-        --with-readline=no --with-x=no --enable-java=no                  \
+        --with-readline=yes --with-x=no --enable-java=no                 \
         --disable-openmp
 RUN cd R-${R_VERSION} && make -j 4
 RUN cd R-${R_VERSION} && make install
@@ -52,6 +52,8 @@ COPY remotes.R /usr/local/bin/
 COPY installr /usr/local/bin/
 
 RUN apk add --no-cache libgfortran xz-libs libcurl libpcrecpp libbz2      \
-    pcre2 make
+    pcre2 make readline
+
+WORKDIR /root
 
 CMD ["R"]
