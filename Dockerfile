@@ -51,6 +51,7 @@ COPY --from=build /usr/local /usr/local
 COPY remotes.R /usr/local/bin/
 COPY installr /usr/local/bin/
 
-RUN apk add --no-cache libgfortran xz-libs libcurl libpcrecpp libbz2 pcre2
+RUN apk add --no-cache libgfortran xz-libs libcurl libpcrecpp libbz2      \
+    pcre2 make
 
 CMD ["R"]
