@@ -58,7 +58,7 @@ echo
 echo --------------------------------------
 [[ -n "$APKG_FIN" ]] && echo Adding "$APKG_FIN"
 [[ -n "$APKG_TMP" ]] && echo Temporarily adding "$APKG_TMP"
-apk add $APKG_FIN $APKG_TMP
+apk add --no-cache $APKG_FIN $APKG_TMP
 
 export R_REMOTES_STANDALONE="true"
 
