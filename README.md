@@ -135,6 +135,11 @@ rmarkdown       | `installr -d rmarkdown`                                   | 19
   the required libraries. Please see
   https://github.com/r-hub/r-minimal/issues/7 for the details.
 
+* The CRAN version (1.3.1) or the readxl package does not compile on
+  Alpine Linux. You can install it from GitHub: `tidyverse/readxl`.
+  For installing the tidyverse package, install `tidyverse/readxl` first,
+  see the [examples/tidyverse/Dockerfile].
+
 ## License
 
 See https://www.r-project.org/Licenses/ for the R licenses
