@@ -113,7 +113,6 @@ dplyr           | `installr -d dplyr`                                       | 17
 ggplot2         | `installr -d -t gfortran ggplot2`                         | 123.4 MB
 h2o             | `installr -d -a openjdk10-jre -t "curl-dev musl-dev" h2o` | 363.2 MB
 knitr           | `installr -d knitr`                                       |  73.6 MB
-prophet         | `installr -d -t "gfortran linux-headers" prophet`         | 389.7 MB
 shiny           | `installr -d -t "file automake autoconf" shiny`           | 178.0 MB
 rmarkdown       | `installr -d rmarkdown`                                   | 196.8 MB (including pandoc)
 
@@ -131,9 +130,10 @@ rmarkdown       | `installr -d rmarkdown`                                   | 19
   details:
   https://github.com/dmlc/xgboost/issues/5131
 
-* The arrow package is hard to install, because Alpine Linux does not have
-  the required libraries. Please see
-  https://github.com/r-hub/r-minimal/issues/7 for the details.
+* The arrow and prophet packages are hard to install, because Alpine Linux does 
+  not have the required libraries. For the details, please see:
+  - https://github.com/r-hub/r-minimal/issues/7 to install arrow
+  - https://github.com/r-hub/r-minimal/issues/22 to install prophet
 
 * The CRAN version (1.3.1) or the readxl package does not compile on
   Alpine Linux. You can install it from GitHub: `tidyverse/readxl`.
