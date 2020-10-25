@@ -43,6 +43,8 @@ RUN find /usr/local/lib/R/share/zoneinfo/America/ -mindepth 1 -maxdepth 1 \
 RUN find /usr/local/lib/R/share/zoneinfo/ -mindepth 1 -maxdepth 1 \
     '!' -name UTC '!' -name America '!' -name GMT -exec rm -r '{}' ';'
 
+RUN sed -i 's/,//g' /usr/local/lib/R/library/utils/iconvlist
+
 RUN touch /usr/local/lib/R/doc/html/R.css
 
 # ----------------------------------------------------------------------------
