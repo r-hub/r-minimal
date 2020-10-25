@@ -145,10 +145,20 @@ See also the discussion at https://github.com/r-hub/r-minimal/issues/24
   details:
   https://github.com/dmlc/xgboost/issues/5131
 
-* The arrow and prophet packages are hard to install, because Alpine Linux does 
+* The arrow package are hard to install, because Alpine Linux does 
   not have the required libraries. For the details, please see:
   - https://github.com/r-hub/r-minimal/issues/7 to install arrow
-  - https://github.com/r-hub/r-minimal/issues/22 to install prophet
+
+* The prophet package needs some special handling because it depends
+  in V8, thorugh rstan, and the system libraries needed for V7 are
+  hard to install on Alpine. See [examples/prophet/Dockerfile] for
+  installing an older version of rstan, that does not need V8. See also the
+  discussion at https://github.com/r-hub/r-minimal/issues/22
+
+* The CRAN version of the odbc package does not compile on Alpine Linux.
+  There is a fix at https://github.com/r-dbi/odbc/pull/400 which you
+  can install from `gaborcsardi/odbc`. See the discussion at
+  https://github.com/r-hub/r-minimal/issues/25
 
 * The CRAN version (1.3.1) or the readxl package does not compile on
   Alpine Linux. You can install it from GitHub: `tidyverse/readxl`.
