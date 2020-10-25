@@ -25,7 +25,7 @@ RUN tar xzf R-${R_VERSION}.tar.gz
 RUN cd R-${R_VERSION} &&                                                 \
     CXXFLAGS=-D__MUSL__ ./configure --with-recommended-packages=no       \
         --with-readline=yes --with-x=no --enable-java=no                 \
-        --disable-openmp
+        --disable-openmp --with-internal-tzcode
 RUN cd R-${R_VERSION} && make -j 4
 RUN cd R-${R_VERSION} && make install
 
@@ -38,6 +38,11 @@ RUN rm -rf /usr/local/lib/R/doc
 RUN mkdir -p /usr/local/lib/R/doc/html
 RUN find /usr/local/lib/R/library -name help | xargs rm -rf
 
+RUN find /usr/local/lib/R/share/zoneinfo/America/ -mindepth 1 -maxdepth 1 \
+    '!' -name New_York  -exec rm -r '{}' ';'
+RUN find /usr/local/lib/R/share/zoneinfo/ -mindepth 1 -maxdepth 1 \
+    '!' -name UTC '!' -name America '!' -name GMT -exec rm -r '{}' ';'
+
 RUN touch /usr/local/lib/R/doc/html/R.css
 
 # ----------------------------------------------------------------------------
@@ -45,6 +50,7 @@ RUN touch /usr/local/lib/R/doc/html/R.css
 FROM alpine:3.12.1
 
 ENV _R_SHLIB_STRIP_=true
+ENV TZ=UTC
 
 COPY --from=build /usr/local /usr/local
 

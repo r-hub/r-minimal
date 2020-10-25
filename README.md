@@ -34,6 +34,8 @@ development:
 * No Tcl/Tk support.
 * No translations, only English.
 * The image does not have C, C++ or Fortran compilers.
+* Limited time zone data: `GMT`, `UTC` and `America/New_York`, see
+  below if you need better time zone data.
 
 ## Usage
 
@@ -121,6 +123,19 @@ rmarkdown       | `installr -d rmarkdown`                                   | 19
 > [let us know](https://github.com/r-hub/r-minimal).
 
 > See the [examples/rmarkdown/Dockerfile] for installing pandoc.
+
+## Time zones
+
+The image uses R's internal time zone database, but most time zones are
+removed from, to save space. The only supported ones are `GMT`, `UTC` and
+`America/New_York`. If you need more time zones, then install Alpine's
+time zone package and point R to it:
+```
+apk add --no-cache tzdata
+export TZDIR=/usr/share/zoneinfo
+```
+
+See also the discussion at https://github.com/r-hub/r-minimal/issues/24
 
 ## Known failures
 
