@@ -23,7 +23,8 @@ RUN if [[ "$R_VERSION" == "devel" ]]; then                               \
 RUN tar xzf R-${R_VERSION}.tar.gz
 
 RUN cd R-${R_VERSION} &&                                                 \
-    CXXFLAGS=-D__MUSL__ ./configure --with-recommended-packages=no       \
+    CXXFLAGS=-D__MUSL__ CFLAGS=-D__MUSL__ ./configure                    \
+        --with-recommended-packages=no                                   \
         --with-readline=yes --with-x=no --enable-java=no                 \
         --disable-openmp --with-internal-tzcode
 RUN cd R-${R_VERSION} && make -j 4
