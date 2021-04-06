@@ -16,7 +16,7 @@ jobs:
         config:
         - { r: 'devel' }
         - { r: 'patched' }
-        - { r: '4.0.3', extra_tags: 'latest' }
+        - { r: '4.0.4', extra_tags: 'latest' }
         - { r: '3.6.3' }
         - { r: '3.5.3' }
         - { r: '3.4.4' }
