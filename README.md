@@ -60,8 +60,9 @@ versions. The `latest` tag always uses the last R release.
 image  | tags   | note
 ------ | ------ | ----
 [R development version](https://github.com/r-hub/r-minimal/packages/92808?version=devel)  | `devel` | Built daily
-[R 4.0.5 patched](https://github.com/r-hub/r-minimal/packages/92808?version=patched)  | `4.0.5-patched`, `4.0-patched`, `patched` | Build daily
-[R 4.0.5](https://github.com/r-hub/r-minimal/packages/92808?version=4.0.5)  | `4.0.5`, `4.0`, `latest` |
+[R 4.1.0](https://github.com/r-hub/r-minimal/packages/92808?version=4.1.0)  | `4.1.0`, `4.1`, `latest` |
+[R 4.0.5 patched](https://github.com/r-hub/r-minimal/packages/92808?version=patched)  | `4.0.5-patched`, `4.0-patched`, `patched` | Built daily
+[R 4.0.5](https://github.com/r-hub/r-minimal/packages/92808?version=4.0.5)  | `4.0.5`, `4.0` |
 [R 3.6.3](https://github.com/r-hub/r-minimal/packages/92808?version=3.6.3)  | `3.6.3`, `3.6` |
 [R 3.5.3](https://github.com/r-hub/r-minimal/packages/92808?version=3.5.3)  | `3.5.3`, `3.5` |
 [R 3.4.4](https://github.com/r-hub/r-minimal/packages/92808?version=3.4.4)  | `3.4.4`, `3.4` |
