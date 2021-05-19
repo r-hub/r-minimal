@@ -111,13 +111,19 @@ Hints on installing some popular R packages:
 
 package         | installr command                                          | ~ image size
 --------------- | --------------------------------------------------------- | -------------
-data.table      | `installr -d -t zlib-dev data.table`                      |  36.9 MB
-dplyr           | `installr -d dplyr`                                       | 171.9 MB
-ggplot2         | `installr -d -t gfortran ggplot2`                         | 123.4 MB
-h2o             | `installr -d -a openjdk10-jre -t "curl-dev musl-dev" h2o` | 363.2 MB
-knitr           | `installr -d knitr`                                       |  73.6 MB
-shiny           | `installr -d -t "file automake autoconf" shiny`           | 178.0 MB
-rmarkdown       | `installr -d rmarkdown`                                   | 196.8 MB (including pandoc)
+data.table      | `installr -d data.table`                                  |  39.1 MB
+dplyr           | `installr -d dplyr`                                       |  47.8 MB
+ggplot2         | `installr -d -t gfortran ggplot2`                         |  82.1 MB
+h2o             | See `examples/h2o`.                                       | 408.0 MB
+knitr           | `installr -d knitr`                                       |  79.2 MB
+shiny           | See `examples/shiny`.                                     |  84.1 MB
+plumber         | See `examples/plumber`.                                   | 103.1 MB
+rmarkdown       | `installr -d rmarkdown`                                   | 161.3 MB (including pandoc)
+rstan           | See `examples/rstan`.                                     | 344.4 MB
+tidyverse       | See `examples/tidyverse`.                                 | 302.5 MB
+xgboost         | `installr -d -t "gfortran libexecinfo-dev" -a libexecinfo xegboost` |  59.9 MB
+
+See also the `Dockerfile`s in the `examples` directory.
 
 > Note that package and system dependencies change over time, so if any
 > of these commands do not work any more, please
@@ -140,26 +146,21 @@ See also the discussion at https://github.com/r-hub/r-minimal/issues/24
 
 ## Known failures
 
-* The current CRAN version (0.90.0.2) of the xgboost package does not
-  compile on Alpine Linux. The development version on GitHub does,
-  but `installr` cannot install that until Issue #4 is fixed. Some
-  details:
-  https://github.com/dmlc/xgboost/issues/5131
-
-* The arrow package are hard to install, because Alpine Linux does 
+* The arrow package are hard to install, because Alpine Linux does
   not have the required libraries. For the details, please see:
-  - https://github.com/r-hub/r-minimal/issues/7 to install arrow
+  https://github.com/r-hub/r-minimal/issues/7
 
-* The prophet package needs some special handling because it depends
-  in V8, thorugh rstan, and the system libraries needed for V7 are
-  hard to install on Alpine. See [examples/prophet/Dockerfile] for
-  installing an older version of rstan, that does not need V8. See also the
-  discussion at https://github.com/r-hub/r-minimal/issues/22
+* The V8 package does not compile on Alpine Linux by default. Luckily,
+  you can now download a static binary of V8:
+  ```
+  DOWNLOAD_STATIC_LIBV8=1 installr -d -t curl-dev V8
+  ```
 
-* The CRAN version of the odbc package does not compile on Alpine Linux.
-  There is a fix at https://github.com/r-dbi/odbc/pull/400 which you
-  can install from `gaborcsardi/odbc`. See the discussion at
-  https://github.com/r-hub/r-minimal/issues/25
+* The prophet package depens on V8, through rstan, and you can use the same
+  trick to install it:
+  ```
+  DOWNLOAD_STATIC_LIBV8=1 installr -d -t "linux-headers gfortran curl-dev" prophet
+  ```
 
 * The CRAN version (1.3.1) or the readxl package does not compile on
   Alpine Linux. You can install it from GitHub: `tidyverse/readxl`.
