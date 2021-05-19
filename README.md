@@ -11,7 +11,8 @@ MacOS. See more at https://www.r-project.org/
 
 The main goal of these images is to keep them minimal, so they can be used
 as part of a bigger (web) application, or as a base image. Currently the
-`r-minimal` image is less than 20MB compressed, and 32MB uncompressed.
+(R 4.1.0) `r-minimal` image is less than 21MB compressed, and 35.4MB
+uncompressed.
 
 All images use Alpine Linux.
 
