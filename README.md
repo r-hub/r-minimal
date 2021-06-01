@@ -167,6 +167,13 @@ See also the discussion at https://github.com/r-hub/r-minimal/issues/24
   Alpine Linux. You can install it from GitHub: `tidyverse/readxl`.
   For installing the tidyverse package, install `tidyverse/readxl` first,
   see the [examples/tidyverse/Dockerfile].
+  
+* The magick package does not install cleanly on Alpine with ImageMagick 7 currently.
+  One workaround is to use ImageMagick 6 (via the `imagemagick6-dev` and
+  `imagemagick6` Alpine packages). Alternatively, you can install the package
+  with `R CMD INSTALL --no-test-load` and as long as you don't use the demo
+  imagees in the package, it should work correctly. See more at
+  https://github.com/ropensci/magick/issues/319#issuecomment-852030878
 
 ## License
 
