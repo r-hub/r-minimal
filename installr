@@ -1,7 +1,22 @@
 #! /usr/bin/env sh
 
 usage() {
-    echo "Usage: $0 [ -c | -d ] [ -a pkgs ] [ -t temp-pkgs ] REMOTES ..."
+    echo "Usage: $0 [ -c | -d ] [ -a pkgs ] [ -t pkgs ] [ -r ] [ -p ] REMOTES ..."
+    echo
+    echo "Options:"
+    echo "  -c    install C and C++ compilers and keep them"
+    echo "  -d    install C and C++ compilers, temporarily"
+    echo "  -a    install Alpine packages and keep them"
+    echo "  -t    install Alpine packages, temporarily"
+    echo "  -r    use remotes to install R packages, instead of pak"
+    echo "  -p    do not remove pak after the installation (ignored if -r is given)".
+    echo
+    echo "REMOTES may be:"
+    echo "  * package names from CRAN/Bioconductor, e.g.    ggplot2"
+    echo "  * slugs of GitHub repos, e.g.                   tidyverse/ggplot2"
+    echo "  * GitHub branch, tag or commit, e.g             tidyverse/ggplot2@v1.0.0"
+    echo "  * URLs to package .tar.gz files, e.g.           url::https://x.com/pkg.tar.gz"
+    echo "  * path to a local directory, e.g.               local::."
     exit 2
 }
 
@@ -30,19 +45,21 @@ make_description() {
     echo "$tmp"
 }
 
-while getopts 'cda:t:?h' o
+unset KEEP_PAK USE_REMOTES
+
+while getopts 'pcda:t:?h' o
 do
     case $o in
         a) APKG_FIN=$OPTARG ; shift ;;
         t) APKG_TMP=$OPTARG ; shift ;;
         c) APKG_COMPILERS=true ;;
         d) APKG_COMPILERS_TMP=true ;;
+        p) KEEP_PAK=true ;;
+        r) USE_REMOTES=true ;;
         h|?) usage ;;
     esac
     shift
 done
-
-[[ -f /usr/local/bin/remotes.R ]] || error "Cannot find remotes.R! :("
 
 APKG_GCC="gcc musl-dev g++"
 
@@ -60,20 +77,42 @@ echo --------------------------------------
 [[ -n "$APKG_TMP" ]] && echo Temporarily adding "$APKG_TMP"
 apk add --no-cache $APKG_FIN $APKG_TMP
 
-export R_REMOTES_STANDALONE="true"
-
-for remote in "$@"
-do
+if [[ -n "$USE_REMOTES" ]]; then
+    [[ -f /usr/local/bin/remotes.R ]] || error "Cannot find remotes.R! :("
+    export R_REMOTES_STANDALONE="true"
+    for remote in "$@"
+    do
+        echo
+        echo --------------------------------------
+        echo Installing "$remote"
+        dir=`make_description "$remote"`
+        (
+            cd $dir
+            R -q -e 'source("/usr/local/bin/remotes.R"); remotes$install_deps()'
+        ) || error "Failed to install $remote"
+        rm -rf "$dir"
+    done
+else
     echo
     echo --------------------------------------
-    echo Installing "$remote"
-    dir=`make_description "$remote"`
-    (
-        cd $dir
-        R -q -e 'source("/usr/local/bin/remotes.R"); remotes$install_deps()'
-    ) || error "Failed to install $remote"
-    rm -rf "$dir"
-done
+    echo Installing pak
+    Rscript -e 'install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev")'
+    echo
+    echo --------------------------------------
+    echo Installing "$@"
+    Rscript -e 'pak::pkg_install(commandArgs(TRUE))' "$@"
+    echo
+    echo --------------------------------------
+    echo Cleaning up pak cache
+    Rscript -e 'pak::cache_clean(); pak::meta_clean(TRUE)'
+    rm -rf /tmp/Rtmp*
+    if [[ -z "$KEEP_PAK" ]]; then
+       echo
+       echo --------------------------------------
+       echo Removing pak
+       Rscript -e 'remove.packages("pak")'
+    fi
+fi
 
 echo
 echo --------------------------------------

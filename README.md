@@ -17,7 +17,31 @@ uncompressed.
 All images use Alpine Linux.
 
 The images include the `installr` tools that can install R packages from
-CRAN or GitHub.
+CRAN or GitHub:
+
+```
+❯ installr -h
+Usage: ./installr [ -c | -d ] [ -a pkgs ] [ -t pkgs ] [ -r ] [ -p ] REMOTES ...
+
+Options:
+  -c    install C and C++ compilers and keep them
+  -d    install C and C++ compilers, temporarily
+  -a    install Alpine packages and keep them
+  -t    install Alpine packages, temporarily
+  -r    use remotes to install R packages, instead of pak
+  -p    do not remove pak after the installation (ignored if -r is given).
+
+REMOTES may be:
+  * package names from CRAN/Bioconductor, e.g.    ggplot2
+  * slugs of GitHub repos, e.g.                   tidyverse/ggplot2
+  * GitHub branch, tag or commit, e.g             tidyverse/ggplot2@v1.0.0
+  * URLs to package .tar.gz files, e.g.           url::https://x.com/pkg.tar.gz
+  * path to a local directory, e.g.               local::.
+```
+
+Recent r-minimal containers use pak (https://github.com/r-lib/pak) for R
+packages installation. If you have problems with pak, use `installr -r` to
+use the older installation method, via the remotes package.
 
 ## Limitations
 
