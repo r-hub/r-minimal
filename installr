@@ -77,7 +77,11 @@ echo --------------------------------------
 [[ -n "$APKG_TMP" ]] && echo Temporarily adding "$APKG_TMP"
 apk add --no-cache $APKG_FIN $APKG_TMP
 
-if [[ -n "$USE_REMOTES" ]]; then
+if [[ -z "$@" ]]; then
+    echo
+    echo --------------------------------------
+    echo No R packages to install
+elif [[ -n "$USE_REMOTES" ]]; then
     [[ -f /usr/local/bin/remotes.R ]] || error "Cannot find remotes.R! :("
     export R_REMOTES_STANDALONE="true"
     for remote in "$@"
