@@ -65,4 +65,6 @@ RUN apk add --no-cache libgfortran xz-libs libcurl libpcrecpp libbz2      \
 
 WORKDIR /root
 
+ENV DOWNLOAD_STATIC_LIBV8=1
+
 CMD ["R"]
