@@ -28,7 +28,6 @@ Options:
   -d    install C and C++ compilers, temporarily
   -a    install Alpine packages and keep them
   -t    install Alpine packages, temporarily
-  -r    use remotes to install R packages, instead of pak
   -p    do not remove pak after the installation (ignored if -r is given).
 
 REMOTES may be:
@@ -40,8 +39,9 @@ REMOTES may be:
 ```
 
 Recent r-minimal containers use pak (https://github.com/r-lib/pak) for R
-packages installation. If you have problems with pak, use `installr -r` to
-use the older installation method, via the remotes package.
+packages installation. If you have problems with pak, or need to install
+a package from a source that pak does not support, but the remotes package
+does, then install the remotes package first.
 
 ## Limitations
 
