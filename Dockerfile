@@ -5,7 +5,7 @@ MAINTAINER "r-hub admin" admin@r-hub.io
 
 ENV _R_SHLIB_STRIP_=true
 
-ARG R_VERSION=4.1.1
+ARG R_VERSION=4.1.2
 
 WORKDIR /root
 
