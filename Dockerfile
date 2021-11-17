@@ -1,5 +1,5 @@
 
-FROM alpine:3.12.1 as build
+FROM alpine:3.14.3 as build
 
 MAINTAINER "r-hub admin" admin@r-hub.io
 
@@ -50,7 +50,7 @@ RUN touch /usr/local/lib/R/doc/html/R.css
 
 # ----------------------------------------------------------------------------
 
-FROM alpine:3.12.1
+FROM alpine:3.14.3
 
 ENV _R_SHLIB_STRIP_=true
 ENV TZ=UTC
