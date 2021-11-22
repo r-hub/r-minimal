@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Docker build
-      uses: r-hub/actions/docker-build@master
+      uses: r-hub/actions/docker-build@feature/arm64
       with:
         r_version: ${{ matrix.config.r }}
         docker_name: rhub/r-minimal
