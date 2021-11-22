@@ -18,7 +18,19 @@ jobs:
         - { r: 'patched' }
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
+
     - name: Docker build
       uses: r-hub/actions/docker-build@feature/arm64
       with:
