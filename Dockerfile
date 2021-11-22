@@ -7,7 +7,7 @@ ENV _R_SHLIB_STRIP_=true
 
 ARG R_VERSION=4.1.2
 
-WORKDIR /root
+WORKDIR /tmp
 
 RUN apk update
 RUN apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
