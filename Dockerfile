@@ -11,7 +11,7 @@ WORKDIR /root
 
 RUN apk update
 RUN apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
-    pcre2-dev curl-dev make perl readline-dev
+    pcre2-dev curl-dev make perl readline-dev wget
 
 RUN if [[ "$R_VERSION" == "devel" ]]; then                               \
         wget https://stat.ethz.ch/R/daily/R-devel.tar.gz;                \
