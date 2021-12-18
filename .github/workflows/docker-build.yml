@@ -21,7 +21,6 @@ jobs:
         - { r: '3.6.3' }
         - { r: '3.5.3' }
         - { r: '3.4.4' }
-        - { r: '3.3.3' }
 
     steps:
     - uses: actions/checkout@v1

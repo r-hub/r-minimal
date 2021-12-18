@@ -91,8 +91,6 @@ image  | tags   | note
 [R 3.6.3](https://github.com/r-hub/r-minimal/packages/92808?version=3.6.3)  | `3.6.3`, `3.6` |
 [R 3.5.3](https://github.com/r-hub/r-minimal/packages/92808?version=3.5.3)  | `3.5.3`, `3.5` |
 [R 3.4.4](https://github.com/r-hub/r-minimal/packages/92808?version=3.4.4)  | `3.4.4`, `3.4` |
-[R 3.3.3](https://github.com/r-hub/r-minimal/packages/92808?version=3.3.3)  | `3.3.3`, `3.3` |
-[R 3.2.5](https://github.com/r-hub/r-minimal/packages/92808?version=3.2.5)  | `3.2.5`, `3.2` |
 
 ## Dockerfile examples
 
