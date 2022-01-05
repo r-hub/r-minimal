@@ -1,4 +1,5 @@
 #! /usr/bin/env sh
+set -e
 
 usage() {
     echo "Usage: $0 [ -c | -d ] [ -a pkgs ] [ -t pkgs ] [ -r ] [ -p ] REMOTES ..."
