@@ -8,6 +8,7 @@ on:
 jobs:
 
   daily-builds:
+    name: ${{ matrix.config.r }}
     runs-on: ubuntu-latest
 
     strategy:

@@ -1,6 +1,8 @@
 name: Docker build, all supported versions
 
-on: [push]
+on:
+  workflow_dispatch:
+  push:
 
 jobs:
 
@@ -14,24 +16,54 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { r: 'devel' }
-        - { r: 'patched' }
-        - { r: '4.1.2', extra_tags: 'latest' }
-        - { r: '4.0.5' }
-        - { r: '3.6.3' }
-        - { r: '3.5.3' }
-        - { r: '3.4.4' }
+        - { r: 'devel',   tags: 'devel,4.2.0,4.2'                   }
+        - { r: 'patched', tags: '4.1.2-patched,4.1-patched,patched' }
+        - { r: '4.1.2',   tags: '4.1.2,4.1,latest'                  }
+        - { r: '4.0.5',   tags: '4.0.5,4.0'                         }
+        - { r: '3.6.3',   tags: '3.6.5,3.6'                         }
+        - { r: '3.5.3',   tags: '3.5.3,3.5'                         }
+        - { r: '3.4.4',   tags: '3.4.4,3.4'                         }
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Docker build
-      uses: r-hub/actions/docker-build@master
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
       with:
-        r_version: ${{ matrix.config.r }}
-        docker_name: rhub/r-minimal
-        github_name: r-hub/r-minimal/r-minimal
-        docker_username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        docker_password: ${{ secrets.DOCKER_HUB_TOKEN }}
-        github_username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        extra_tags: ${{ matrix.config.extra_tags }}
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Calculate tags
+      id: tags
+      run: |
+        echo -n "::set-output name=tags::"
+        echo ${{ matrix.config.tags }} |
+        tr , '\n' |
+        sed -e 's|^|ghcr.io/r-hub/r-minimal/r-minimal:|' |
+        tr '\n' ,
+        echo -n ${{ matrix.config.tags }} |
+        tr , '\n' |
+        sed -e 's|^|rhub/r-minimal:|' |
+        tr '\n' ,
+
+    - name: Check tags
+      run: |
+        echo "${{ steps.tags.outputs.tags }}"
+
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.tags.outputs.tags }}
