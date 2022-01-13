@@ -39,7 +39,7 @@ jobs:
 
     - name: Calculate tags
       id: tags
-      run: >-
+      run: |
         echo -n "::set-output name=tags::"
         echo ${{ matrix.config.tags }} |
         tr , '\n' |
