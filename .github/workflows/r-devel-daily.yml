@@ -14,8 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { r: 'devel',   tags: 'devel 4.2.0 4.2'                   }
-        - { r: 'patched', tags: '4.1.2-patched 4.1-patched patched' }
+        - { r: 'devel',   tags: 'devel,4.2.0,4.2'                   }
+        - { r: 'patched', tags: '4.1.2-patched,4.1-patched,patched' }
 
     steps:
     - name: Login to GitHub Container Registry
