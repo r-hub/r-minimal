@@ -45,7 +45,6 @@ jobs:
         tr , '\n' |
         sed -e 's|^|ghcr.io/r-hub/r-minimal/r-minimal:|' |
         tr '\n' ,
-        echo -n "::set-output name=tags::"
         echo -n ${{ matrix.config.tags }} |
         tr , '\n' |
         sed -e 's|^|rhub/r-minimal:|' |
