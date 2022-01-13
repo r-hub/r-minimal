@@ -51,7 +51,6 @@ jobs:
         echo "${{ steps.tags.outputs.tags }}"
 
     - name: Build and push
-      if: false
       uses: docker/build-push-action@v2
       with:
         push: true
