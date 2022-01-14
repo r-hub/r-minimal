@@ -50,16 +50,6 @@ jobs:
         echo "::set-output name=tagsb315::${{ matrix.config.tags }}" |
         sed -e 's|%|rhub/r-minimal:alpine315-|g'
 
-    - name: Check tags
-      run: |
-        echo "${{ steps.tags.outputs.tagsa }}"
-        echo "${{ steps.tags.outputs.tagsb }}"
-
-    - name: Check tags 2
-      run: |
-        echo "${{ steps.tags.outputs.tagsa315 }}"
-        echo "${{ steps.tags.outputs.tagsb315 }}"
-
     - name: Build and push
       if: false
       uses: docker/build-push-action@v2
@@ -68,9 +58,11 @@ jobs:
         push: true
         tags: ${{ steps.tags.outputs.tagsa }},${{ steps.tags.outputs.tagsb }}
 
-    - name: Build and push
+    - name: Build and push (Alpine 3.15)
       uses: docker/build-push-action@v2
       with:
         platforms: linux/amd64,linux/arm64
         push: true
+        build-args: |
+          ALPINE_VERSION=3.15.0
         tags: ${{ steps.tags.outputs.tagsa315 }},${{ steps.tags.outputs.tagsb315 }}
