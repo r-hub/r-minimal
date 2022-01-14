@@ -44,11 +44,11 @@ jobs:
         echo "::set-output name=tagsa::${{ matrix.config.tags }}" |
         sed -e 's|%|ghcr.io/r-hub/r-minimal/r-minimal:|g'
         echo "::set-output name=tagsb::${{ matrix.config.tags }}" |
-        sed -e 's|%|r-hub/r-minimal:|g'
+        sed -e 's|%|rhub/r-minimal:|g'
         echo "::set-output name=tagsa315::${{ matrix.config.tags }}" |
         sed -e 's|%|ghcr.io/r-hub/r-minimal/r-minimal:alpine315-|g'
         echo "::set-output name=tagsb315::${{ matrix.config.tags }}" |
-        sed -e 's|%|r-hub/r-minimal:alpine315-|g'
+        sed -e 's|%|rhub/r-minimal:alpine315-|g'
 
     - name: Check tags
       run: |
@@ -61,6 +61,7 @@ jobs:
         echo "${{ steps.tags.outputs.tagsb315 }}"
 
     - name: Build and push
+      if: false
       uses: docker/build-push-action@v2
       with:
         platforms: linux/amd64,linux/arm64
