@@ -1,7 +1,7 @@
 name: Docker build, all supported versions
 
 on:
-  workflow-dispatch:
+  workflow_dispatch:
 
 jobs:
 
