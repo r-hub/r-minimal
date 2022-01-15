@@ -56,7 +56,7 @@ jobs:
         platforms: linux/amd64,linux/arm64
         push: true
         build-args: |
-          R_MAJOR=${{ matrix.config.r }}
+          R_VERSION=${{ matrix.config.r }}
         tags: ${{ steps.tags.outputs.tagsa }},${{ steps.tags.outputs.tagsb }}
 
     - name: Build and push (Alpine 3.15)
@@ -65,6 +65,6 @@ jobs:
         platforms: linux/amd64,linux/arm64
         push: true
         build-args: |
-          R_MAJOR=${{ matrix.config.r }}
+          R_VERSION=${{ matrix.config.r }}
           ALPINE_VERSION=3.15.0
         tags: ${{ steps.tags.outputs.tagsa315 }},${{ steps.tags.outputs.tagsb315 }}
