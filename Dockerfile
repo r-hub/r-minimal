@@ -24,8 +24,16 @@ RUN if [[ "$R_VERSION" == "devel" ]]; then                               \
     fi
 RUN tar xzf R-${R_VERSION}.tar.gz
 
+RUN if echo ${R_VERSION} | grep -q "^3[.][45][.]"; then                        \
+       echo "export CFLAGS='-D__MUSL__ -fcommon'" >> R-${R_VERSION}/FLAGS;     \
+       echo "export FFLAGS=-fallow-argument-mismatch" >> R-${R_VERSION}/FLAGS; \
+    else                                                                       \
+       echo "export CFLAGS=-D__MUSL__" >> R-${R_VERSION}/FLAGS;                \
+    fi
+
 RUN cd R-${R_VERSION} &&                                                 \
-    CXXFLAGS=-D__MUSL__ CFLAGS=-D__MUSL__ ./configure                    \
+    . FLAGS &&                                                           \
+    CXXFLAGS=-D__MUSL__  ./configure                                     \
         --with-recommended-packages=no                                   \
         --with-readline=yes --with-x=no --enable-java=no                 \
         --disable-openmp --with-internal-tzcode
