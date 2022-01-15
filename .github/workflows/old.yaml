@@ -1,0 +1,38 @@
+name: Docker build, all supported versions
+
+on:
+  workflow-dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    name: ${{ matrix.config.r }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { r: 'devel' }
+        - { r: 'patched' }
+        - { r: '4.1.2', extra_tags: 'latest' }
+        - { r: '4.0.5' }
+        - { r: '3.6.3' }
+        - { r: '3.5.3' }
+        - { r: '3.4.4' }
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Docker build
+      uses: r-hub/actions/docker-build@master
+      with:
+        r_version: ${{ matrix.config.r }}
+        docker_name: rhub/r-minimal
+        github_name: r-hub/r-minimal/r-minimal
+        docker_username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        docker_password: ${{ secrets.DOCKER_HUB_TOKEN }}
+        github_username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        extra_tags: ${{ matrix.config.extra_tags }}
