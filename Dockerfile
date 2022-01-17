@@ -72,6 +72,11 @@ COPY installr /usr/local/bin/
 RUN apk add --no-cache libgfortran xz-libs libcurl libpcrecpp libbz2      \
     pcre2 make readline
 
+RUN if [ "${ALPINE_VERSION}" != "3.14.3" ]; then \
+       apk add --no-cache bash;                  \
+       ln -sf /bin/bash /bin/sh;                 \
+    fi
+
 WORKDIR /root
 
 ENV DOWNLOAD_STATIC_LIBV8=1
