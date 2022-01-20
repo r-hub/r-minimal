@@ -36,6 +36,7 @@ RUN cd R-${R_VERSION} &&                                                 \
     CXXFLAGS=-D__MUSL__  ./configure                                     \
         --with-recommended-packages=no                                   \
         --with-readline=yes --with-x=no --enable-java=no                 \
+        --enable-R-shlib                                                 \
         --disable-openmp --with-internal-tzcode
 RUN cd R-${R_VERSION} && make -j 4
 RUN cd R-${R_VERSION} && make install
