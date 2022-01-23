@@ -1,4 +1,4 @@
-#! /usr/bin/env sh
+#! /bin/ash
 set -e
 
 usage() {
