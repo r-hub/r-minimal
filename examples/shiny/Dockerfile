@@ -8,6 +8,6 @@ RUN apk add --no-cache --update-cache \
     # repeat autoconf and automake (under `-t`)
     # to (auto)remove them after installation
     installr -d \
-        -t "bash libsodium-dev curl-dev linux-headers autoconf automake" \
+        -t "libsodium-dev curl-dev linux-headers autoconf automake" \
         -a libsodium \
         shiny
