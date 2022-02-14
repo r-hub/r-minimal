@@ -167,7 +167,13 @@ export TZDIR=/usr/share/zoneinfo
 
 See also the discussion at https://github.com/r-hub/r-minimal/issues/24
 
-## Known failures
+## Known failures and workarounds
+
+* The ps package needs the `linux-headers` Alpine package at compile time.
+  Many tidyverse packages depend on ps, so they'll need it as well:
+  ```
+  installr -d -t linux-headers ps
+  ```
 
 * The arrow package are hard to install, because Alpine Linux does
   not have the required libraries. For the details, please see:
