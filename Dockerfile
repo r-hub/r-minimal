@@ -24,6 +24,11 @@ RUN if [[ "$R_VERSION" == "devel" ]]; then                               \
     fi
 RUN tar xzf R-${R_VERSION}.tar.gz
 
+# The directory inside the tarball sometimes has different names
+
+RUN if [[ -e R-beta ]]; then mv R-beta R-patched; fi
+RUN if [[ -e R-alpha ]]; then mv R-alpha R-patched; fi
+
 RUN if echo ${R_VERSION} | grep -q "^3[.][45][.]"; then                        \
        echo "export CFLAGS='-D__MUSL__ -fcommon'" >> R-${R_VERSION}/FLAGS;     \
        echo "export FFLAGS=-fallow-argument-mismatch" >> R-${R_VERSION}/FLAGS; \
