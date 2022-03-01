@@ -59,7 +59,7 @@ apk add --no-cache $APKG_FIN $APKG_TMP
 echo
 echo --------------------------------------
 echo "Installing pak (if needed)"
-Rscript -e 'if (! requireNamespace("pak", quietly=TRUE)) install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev")'
+Rscript -e 'if (! requireNamespace("pak", quietly=TRUE)) install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/devel/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))'
 
 if [[ -z "$@" ]]; then
     echo
