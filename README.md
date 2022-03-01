@@ -77,6 +77,10 @@ or from [GitHub Packages](https://github.com/r-hub/r-minimal/packages/92808?vers
 docker pull docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
 ```
 
+## Platforms
+
+All images are available on `linux/amd64` and `linux/arm64` platforms.
+
 ## Supported R versions
 
 Currently we support the last patch version of the last five minor R
