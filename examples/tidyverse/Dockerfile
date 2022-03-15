@@ -1,8 +1,9 @@
 
 FROM rhub/r-minimal
 
+# Need https://github.com/tidyverse/readxl/pull/687 for readxl
+
 RUN installr -d \
-   -t "R-dev file automake autoconf linux-headers libxml2-dev" \
-   -a "libxml2 icu-libs" `# needed for xml2 and stringr`  \
-   tidyverse/readxl `# CRAN version (<=1.3.1) does not compile on alpine` \
-   tidyverse
+    -t "curl-dev libxml2-dev linux-headers gfortran" \
+    -a "libcurl libxml2"  \
+    gaborcsardi/readxl@fix/alpine-linux tidyverse

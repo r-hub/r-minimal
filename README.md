@@ -196,9 +196,15 @@ See also the discussion at https://github.com/r-hub/r-minimal/issues/24
   ```
 
 * The readxl package does not compile on Alpine Linux currently.
-  This can be fixed with the development version of the progress package:
+  You can install this branch from GitHub:
   ```
-  installr -d r-lib/progress readxl
+  installr -d gaborcsardi/readxl@fix/alpine-linux
+  ```
+
+* The tidyverse package depends on readxl, so you'll need to do the same:
+  ```
+  installr -d -t "curl-dev libxml2-dev linux-headers gfortran" \
+      -a "libcurl libxml2" gaborcsardi/readxl@fix/alpine-linux tidyverse
   ```
 
 * To install the magick package, you need both the `imagemagick` and 
