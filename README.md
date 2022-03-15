@@ -195,11 +195,12 @@ See also the discussion at https://github.com/r-hub/r-minimal/issues/24
   DOWNLOAD_STATIC_LIBV8=1 installr -d -t "linux-headers gfortran curl-dev" prophet
   ```
 
-* The CRAN version (1.3.1) or the readxl package does not compile on
-  Alpine Linux. You can install it from GitHub: `tidyverse/readxl`.
-  For installing the tidyverse package, install `tidyverse/readxl` first,
-  see the [examples/tidyverse/Dockerfile].
-  
+* The readxl package does not compile on Alpine Linux currently.
+  This can be fixed with the development version of the progress package:
+  ```
+  installr -d r-lib/progress readxl
+  ```
+
 * To install the magick package, you need both the `imagemagick` and 
   `imagemagick-dev` Alpine packages, both at install time and run time:
   ```
