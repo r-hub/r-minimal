@@ -18,7 +18,7 @@ RUN apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
 RUN if [[ "$R_VERSION" == "devel" ]]; then                                 \
         wget https://cran.rstudio.com/src/base-prerelease/R-devel.tar.gz;  \
     elif [[ "$R_VERSION" == "patched" ]]; then                             \
-        wget https://cran.rstudio.com/src/base-prerelease/R-latest.tar.gz; \
+        wget https://cran.rstudio.com/src/base-prerelease/R-latest.tar.gz -O R-patched.tar.gz; \
     else                                                                   \
         wget https://cran.rstudio.com/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz; \
     fi
