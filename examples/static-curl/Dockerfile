@@ -9,7 +9,7 @@ RUN installr -c
 
 # zlib --------------------------------------------
 
-RUN wget https://www.zlib.net/zlib-1.2.11.tar.gz
+RUN wget https://downloads.sourceforge.net/project/libpng/zlib/1.2.11/zlib-1.2.11.tar.gz
 RUN tar xzf zlib-*.tar.gz
 RUN cd zlib-* &&                                    \
     CFLAGS=-fPIC ./configure --static &&            \
