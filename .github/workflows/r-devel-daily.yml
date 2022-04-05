@@ -105,4 +105,4 @@ jobs:
 
     steps:
     - name: Update README
-      uses: ./actions/readme-builder
+      uses: ./actions/readme-build
