@@ -91,7 +91,7 @@ versions. The `latest` tag always uses the last R release.
 | R 4.0.x   | 4.0.5       | `4.0.5`, `4.0`                                              |             |
 | R 3.6.x   | 3.6.3       | `3.6.3`, `3.6`                                              |             |
 | R 3.5.x   | 3.5.3       | `3.5.3`, `3.5`                                              |             |
-| $ 3.4.x   | 3.4.4       | `3.4.4`, `3.4`                                              |             |
+| R 3.4.x   | 3.4.4       | `3.4.4`, `3.4`                                              |             |
 
 ## Dockerfile examples
 
