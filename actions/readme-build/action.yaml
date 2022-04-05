@@ -5,7 +5,7 @@ inputs:
   packages:
     description: |
       Which package(s) to install. Defaults to `any::rcmdcheck`.
-    default: 'any::rcmdcheck'
+    default: 'any::rmarkdown'
 runs:
   using: composite
   steps:
