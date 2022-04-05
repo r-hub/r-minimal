@@ -15,8 +15,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { r: 'devel',   tags: '%devel,%4.2.0,%4.2'                   }
-        - { r: 'patched', tags: '%4.1.2-patched,%4.1-patched,%patched' }
+        - { r: 'devel' }
+        - { r: 'next'  }
 
     steps:
     - name: Login to GitHub Container Registry
@@ -38,33 +38,22 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    - name: Calculate tags
-      id: tags
-      run: |
-        echo "::set-output name=tagsa::${{ matrix.config.tags }}" |
-        sed -e 's|%|ghcr.io/r-hub/r-minimal/r-minimal:|g'
-        echo "::set-output name=tagsb::${{ matrix.config.tags }}" |
-        sed -e 's|%|rhub/r-minimal:|g'
-        echo "::set-output name=tagsa315::${{ matrix.config.tags }}" |
-        sed -e 's|%|ghcr.io/r-hub/r-minimal/r-minimal:alpine315-|g'
-        echo "::set-output name=tagsb315::${{ matrix.config.tags }}" |
-        sed -e 's|%|rhub/r-minimal:alpine315-|g'
-
-    - name: Build and push
+    - name: Build
       uses: docker/build-push-action@v2
       with:
-        platforms: linux/amd64,linux/arm64
+        platforms: linux/amd64
+#        platforms: linux/amd64,linux/arm64
+        push: false
+        load: true
+        build-args: |
+          R_VERSION=${{ matrix.config.r }}
+
+    - name: Push
+      uses: docker/build-push-action@v2
+      with:
+        platforms: linux/amd64
+#        platforms: linux/amd64,linux/arm64
         push: true
         build-args: |
           R_VERSION=${{ matrix.config.r }}
-        tags: ${{ steps.tags.outputs.tagsa }},${{ steps.tags.outputs.tagsb }}
-
-    - name: Build and push (Alpine 3.15)
-      uses: docker/build-push-action@v2
-      with:
-        platforms: linux/amd64,linux/arm64
-        push: true
-        build-args: |
-          R_VERSION=${{ matrix.config.r }}
-          ALPINE_VERSION=3.15.0
-        tags: ${{ steps.tags.outputs.tagsa315 }},${{ steps.tags.outputs.tagsb315 }}
+        tags: ${{ steps.build.outputs.tags }}

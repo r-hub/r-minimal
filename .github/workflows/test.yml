@@ -1,0 +1,21 @@
+name: Tests
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    steps:
+    - name: Install bats
+      run: |
+        sudo apt-get update && sudo apt-get install bats
+
+    - name: Run tests
+      run: |
+        bats test.bats

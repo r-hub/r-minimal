@@ -17,8 +17,8 @@ RUN apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
 
 RUN if [[ "$R_VERSION" == "devel" ]]; then                                 \
         wget https://stat.ethz.ch/R/daily/R-devel.tar.gz;                  \
-    elif [[ "$R_VERSION" == "patched" ]]; then                             \
-        wget https://cran.rstudio.com/src/base-prerelease/R-latest.tar.gz -O R-patched.tar.gz; \
+    elif [[ "$R_VERSION" == "next" ]]; then                                \
+        wget https://cran.rstudio.com/src/base-prerelease/R-latest.tar.gz -O R-next.tar.gz; \
     else                                                                   \
         wget https://cran.rstudio.com/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz; \
     fi
@@ -26,9 +26,11 @@ RUN tar xzf R-${R_VERSION}.tar.gz
 
 # The directory inside the tarball sometimes has different names
 
-RUN if [[ -e R-beta ]]; then mv R-beta R-patched; fi
-RUN if [[ -e R-alpha ]]; then mv R-alpha R-patched; fi
-RUN if [[ -e R-rc ]]; then mv R-rc R-patched; fi
+RUN if [[ -e R-beta ]]; then mv R-beta R-next; fi
+RUN if [[ -e R-alpha ]]; then mv R-alpha R-next; fi
+RUN if [[ -e R-rc ]]; then mv R-rc R-next; fi
+RUN if [[ -e R-prerelease ]]; then mv R-prerelease R-next; fi
+RUN if [[ -e R-pre ]]; then mv R-pre R-next; fi
 
 RUN if echo ${R_VERSION} | grep -q "^3[.][45][.]"; then                        \
        echo "export CFLAGS='-D__MUSL__ -fcommon'" >> R-${R_VERSION}/FLAGS;     \
@@ -67,7 +69,8 @@ RUN touch /usr/local/lib/R/doc/html/R.css
 
 # ----------------------------------------------------------------------------
 
-FROM alpine:${ALPINE_VERSION}
+FROM alpine:${ALPINE_VERSION} as final
+ARG R_VERSION=4.1.2
 
 ENV _R_SHLIB_STRIP_=true
 ENV TZ=UTC
@@ -85,5 +88,9 @@ RUN apk add --no-cache bash && \
 WORKDIR /root
 
 ENV DOWNLOAD_STATIC_LIBV8=1
+
+COPY calculate_tags.sh .
+
+RUN ./calculate_tags.sh ${R_VERSION} && rm calculate_tags.sh
 
 CMD ["R"]
