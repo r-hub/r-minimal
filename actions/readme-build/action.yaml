@@ -9,6 +9,11 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 10
+
     - name: Install R
       uses: r-lib/actions/setup-r@v2
 
