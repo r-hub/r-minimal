@@ -1,0 +1,30 @@
+name: readme-build
+description: |
+  Build `README.md` from `README.Rmd`.
+inputs:
+  packages:
+    description: |
+      Which package(s) to install. Defaults to `any::rcmdcheck`.
+    default: 'any:rcmdcheck'
+runs:
+  using: composite
+  steps:
+    - name: Install R
+      uses: r-lib/actions/setup-r@v2
+
+    - name: Install R packages
+      uses: r-lib/actions/setup-r-dependencies@v2
+      with:
+        packages: ${{ inputs.packages }}
+
+    - name: Render README
+      run: |
+        rmarkdown::render("README.Rmd")
+      shell: Rscript {0}
+
+    - name: Publish
+      run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git commit -a -m 'Re-build README' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"        

@@ -2,12 +2,30 @@ name: Daily R devel and R patched build
 
 on:
   workflow_dispatch:
+    inputs:
+      build:
+        description: 'Build R-devel and R-next'
+        required: true
+        type: choice
+        options:
+        - 'yes'
+        - 'no'
+        default: 'yes'
+      readme:
+        description: 'Update README'
+        required: true
+        type: choice
+        options:
+        - 'yes'
+        - 'no'
+        default: 'yes'
   schedule:
     - cron:  '55 6 * * *'
 
 jobs:
 
   daily-builds:
+    if: ${{ github.event.inputs.build == '' || github.event.inputs.build == 'yes' }}
     name: ${{ matrix.config.r }}
     runs-on: ubuntu-latest
 
@@ -68,3 +86,13 @@ jobs:
         build-args: |
           R_VERSION=${{ matrix.config.r }}
         tags: ${{ steps.tags.outputs.tags }}
+
+  readme:
+    if: ${{ github.event.inputs.readme == '' || github.event.inputs.readme == 'yes' }}
+    name: Update DEADME
+    runs-on: ubuntu-latest
+    needs: daily-builds
+
+    steps:
+    - name: Update README
+      uses: ./actions/readme-builder
