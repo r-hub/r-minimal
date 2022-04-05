@@ -9,7 +9,7 @@ function teardown() {
 }
 
 @test "devel" {
-    source calculate_tags.sh
+    source tools/calculate_tags.sh
     function get_r_version_number() { echo 4.0.0; }
     export -f get_r_version_number
     run calculate devel
@@ -18,7 +18,7 @@ function teardown() {
 }
 
 @test "next" {
-    source calculate_tags.sh
+    source tools/calculate_tags.sh
     function get_r_version_number() {
         echo 4.2.0;
     }
@@ -33,7 +33,7 @@ function teardown() {
 }
 
 @test "release" {
-    source calculate_tags.sh
+    source tools/calculate_tags.sh
     function get_r_version_number() {
         echo 4.1.3;
     }
@@ -48,7 +48,7 @@ function teardown() {
 }
 
 @test "old" {
-    source calculate_tags.sh
+    source tools/calculate_tags.sh
     function get_r_version_number() {
         echo 4.1.2;
     }
