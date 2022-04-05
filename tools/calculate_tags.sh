@@ -91,20 +91,27 @@ function get_r_release_version() {
         sed 's/".*$//'
 }
 
-function calculate() {
+function calculate_raw() {
     r_version=${1}
+    r_version_number=${2}
+    vstr=${3}
     if [[ -z "$r_version" ]]; then
         >&2 echo "Version is not specified"
         exit 1;
     fi
-    r_version_number=$(get_r_version_number)
+
+    if [[ -z "$r_version_number" ]]; then
+        r_version_number=$(get_r_version_number)
+    fi
     r_minor=$(echo ${r_version_number} | sed 's/[.][0-9][0-9]*$//')
+
+    if [[ -z "$vstr" ]]; then
+        vstr=$(get_r_version_string)
+    fi
+
     tags=""
-    echo "R version number: ${r_version}"
-    vstr=$(get_r_version_string)
-    echo "R version string: $vstr"
     if [[ "${r_version}" = "devel" ]]; then
-        tags="devel ${r_version_number}-devel ${r_version_number} ${r_minor} ${r_minor}-devel"
+        tags="devel ${r_version_number} ${r_minor} ${r_version_number}-devel ${r_minor}-devel"
 
     elif [[ "${r_version}" = "next" ]]; then
         tags="next ${r_version_number} ${r_minor}"
@@ -115,7 +122,7 @@ function calculate() {
         elif echo $vstr | grep -q '[Bb]eta'; then
             tags="$tags beta ${r_version_number}-beta ${r_minor}-beta"
         elif echo $vstr | grep -q '[Rr][Cc]'; then
-            tags="$tags rc ${r_version_number}-rc ${r_minor}-rc"            
+            tags="$tags rc ${r_version_number}-rc ${r_minor}-rc"
         fi
     else
         tags="${r_version_number} ${r_minor}"
@@ -124,15 +131,20 @@ function calculate() {
             tags="$tags release latest"
         fi
     fi
+    echo "$tags"
+}
+
+function calculate() {
+    tags=$(calculate_raw "$@")
     echo "Tags to add: $tags"
-    ftags="`prefix_tags "$tags"`"
+    ftags="$(prefix_tags "$tags")"
     echo "::set-output name=tags::${ftags}"
 }
 
 function main() {
-    calculate $1
+    calculate $@
 }
 
 if [ "$sourced" = "0" ]; then
-    main $1
+    main "$*"
 fi

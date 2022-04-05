@@ -23,14 +23,14 @@ CRAN or GitHub:
 
     ❯ installr -h
     Usage: ./installr [ -c | -d ] [ -a pkgs ] [ -t pkgs ] [ -r ] [ -p ] REMOTES ...
-    
+
     Options:
       -c    install C and C++ compilers and keep them
       -d    install C and C++ compilers, temporarily
       -a    install Alpine packages and keep them
       -t    install Alpine packages, temporarily
       -p    do not remove pak after the installation (ignored if -r is given).
-    
+
     REMOTES may be:
       * package names from CRAN/Bioconductor, e.g.    ggplot2
       * slugs of GitHub repos, e.g.                   tidyverse/ggplot2
@@ -49,17 +49,17 @@ To keep the images minimal, they do not include a number of parts and
 features that most users would prefer to have for interactive R
 development:
 
-  - Recommended R packages are not installed.
-  - Documentation is not included.
-  - No X11 support.
-  - No Java support.
-  - No OpenMP support.
-  - No JPEG, PNG or TIFF support.
-  - No Cairo support.
-  - No Tcl/Tk support.
-  - No translations, only English.
-  - The image does not have C, C++ or Fortran compilers.
-  - Limited time zone data: `GMT`, `UTC` and `America/New_York`, see
+-   Recommended R packages are not installed.
+-   Documentation is not included.
+-   No X11 support.
+-   No Java support.
+-   No OpenMP support.
+-   No JPEG, PNG or TIFF support.
+-   No Cairo support.
+-   No Tcl/Tk support.
+-   No translations, only English.
+-   The image does not have C, C++ or Fortran compilers.
+-   Limited time zone data: `GMT`, `UTC` and `America/New_York`, see
     below if you need better time zone data.
 
 ## Usage
@@ -83,15 +83,15 @@ All images are available on `linux/amd64` and `linux/arm64` platforms.
 Currently we support the last patch version of the last five minor R
 versions. The `latest` tag always uses the last R release.
 
-| image                                                                                    | tags                                      | note        |
-| ---------------------------------------------------------------------------------------- | ----------------------------------------- | ----------- |
-| [R development version](https://github.com/r-hub/r-minimal/packages/92808?version=devel) | `devel`, `4.2.0`, `4.2`                   | Built daily |
-| [R 4.1.3](https://github.com/r-hub/r-minimal/packages/92808?version=4.1.3)               | `4.1.3`, `4.1`, `latest`                  |             |
-| [R 4.1.3 patched](https://github.com/r-hub/r-minimal/packages/92808?version=patched)     | `4.1.3-patched`, `4.1-patched`, `patched` | Built daily |
-| [R 4.0.5](https://github.com/r-hub/r-minimal/packages/92808?version=4.0.5)               | `4.0.5`, `4.0`                            |             |
-| [R 3.6.3](https://github.com/r-hub/r-minimal/packages/92808?version=3.6.3)               | `3.6.3`, `3.6`                            |             |
-| [R 3.5.3](https://github.com/r-hub/r-minimal/packages/92808?version=3.5.3)               | `3.5.3`, `3.5`                            |             |
-| [R 3.4.4](https://github.com/r-hub/r-minimal/packages/92808?version=3.4.4)               | `3.4.4`, `3.4`                            |             |
+| image     | R version   | tags                                                        | note        |
+|-----------|-------------|-------------------------------------------------------------|-------------|
+| R devel   | 4.3.0-devel | `devel`, `4.3.0`, `4.3`, `4.3.0-devel`, `4.3-devel`         | Built daily |
+| R next    | 4.2.0-alpha | `next`, `4.2.0`, `4.2`, `alpha`, `4.2.0-alpha`, `4.2-alpha` | Built daily |
+| R release | 4.1.3       | `4.1.3`, `4.1`, `release`, `latest`                         |             |
+| R 4.0.x   | 4.0.5       | `4.0.5`, `4.0`                                              |             |
+| R 3.6.x   | 3.6.3       | `3.6.3`, `3.6`                                              |             |
+| R 3.5.x   | 3.5.3       | `3.5.3`, `3.5`                                              |             |
+| $ 3.4.x   | 3.4.4       | `3.4.4`, `3.4`                                              |             |
 
 ## Dockerfile examples
 
@@ -120,15 +120,15 @@ Package with system requirements:
     CMD [ "R", "-q", "-e", "pingr::is_online() || stop('offline')" ]
 
 Similarly to compilers, system packages are removed after the R packages
-have been installed. If you want to keep (some of) them, use `installr
--a` instead of `installr -t`. (You can also mix the two.)
+have been installed. If you want to keep (some of) them, use
+`installr -a` instead of `installr -t`. (You can also mix the two.)
 
 ## Popular packages:
 
 Hints on installing some popular R packages:
 
 | package    | installr command                                                    | \~ image size               |
-| ---------- | ------------------------------------------------------------------- | --------------------------- |
+|------------|---------------------------------------------------------------------|-----------------------------|
 | data.table | `installr -d data.table`                                            | 39.1 MB                     |
 | dplyr      | `installr -d dplyr`                                                 | 47.8 MB                     |
 | ggplot2    | `installr -d -t gfortran ggplot2`                                   | 82.1 MB                     |
@@ -164,41 +164,41 @@ See also the discussion at
 
 ## Known failures and workarounds
 
-  - The ps package needs the `linux-headers` Alpine package at compile
+-   The ps package needs the `linux-headers` Alpine package at compile
     time. Many tidyverse packages depend on ps, so they’ll need it as
     well:
-    
+
         installr -d -t linux-headers ps
 
-  - The arrow package are hard to install, because Alpine Linux does not
+-   The arrow package are hard to install, because Alpine Linux does not
     have the required libraries. For the details, please see:
     <https://github.com/r-hub/r-minimal/issues/7>
 
-  - The V8 package does not compile on Alpine Linux by default. Luckily,
+-   The V8 package does not compile on Alpine Linux by default. Luckily,
     you can now download a static binary of V8:
-    
+
         DOWNLOAD_STATIC_LIBV8=1 installr -d -t curl-dev V8
 
-  - The prophet package depens on V8, through rstan, and you can use the
+-   The prophet package depens on V8, through rstan, and you can use the
     same trick to install it:
-    
+
         DOWNLOAD_STATIC_LIBV8=1 installr -d -t "linux-headers gfortran curl-dev" prophet
 
-  - The readxl package does not compile on Alpine Linux currently. You
+-   The readxl package does not compile on Alpine Linux currently. You
     can install this branch from GitHub:
-    
+
         installr -d gaborcsardi/readxl@fix/alpine-linux
 
-  - The tidyverse package depends on readxl, so you’ll need to do the
+-   The tidyverse package depends on readxl, so you’ll need to do the
     same:
-    
+
         installr -d -t "curl-dev libxml2-dev linux-headers gfortran" \
             -a "libcurl libxml2" gaborcsardi/readxl@fix/alpine-linux tidyverse
 
-  - To install the magick package, you need both the `imagemagick` and
+-   To install the magick package, you need both the `imagemagick` and
     `imagemagick-dev` Alpine packages, both at install time and run
     time:
-    
+
         installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
 
 ## License
@@ -207,4 +207,4 @@ See <https://www.r-project.org/Licenses/> for the R licenses
 
 These Dockerfiles are licensed under the MIT License.
 
-3)  [R Consortium](https://github.com/rconsortium)
+© [R Consortium](https://github.com/rconsortium)
