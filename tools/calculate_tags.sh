@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 
 sourced=0
 if [ -n "$ZSH_EVAL_CONTEXT" ]; then
