@@ -82,5 +82,10 @@ jobs:
     needs: build
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 10
+
     - name: Update README
       uses: ./actions/readme-builder

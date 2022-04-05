@@ -104,5 +104,10 @@ jobs:
     needs: daily-builds
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 10
+
     - name: Update README
       uses: ./actions/readme-build
