@@ -28,3 +28,4 @@ runs:
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git commit -a -m 'Re-build README' || echo "No changes to commit"
           git push origin || echo "No changes to commit"        
+      shell: bash
