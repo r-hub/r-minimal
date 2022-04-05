@@ -87,6 +87,16 @@ jobs:
           R_VERSION=${{ matrix.config.r }}
         tags: ${{ steps.tags.outputs.tags }}
 
+  debug:
+    runs-on: ubuntu-latest
+    if: always()
+    name: Parameters
+    steps:
+      - name: Input parameters
+        run: |
+          echo "build: ${{ github.event.inputs.build }}"
+          echo "readme: ${{ github.event.inputs.readme }}"
+
   readme:
     if: ${{ github.event.inputs.readme == '' || github.event.inputs.readme == 'yes' }}
     name: Update DEADME
