@@ -126,7 +126,7 @@ function calculate() {
     fi
     echo "Tags to add: $tags"
     ftags="`prefix_tags "$tags"`"
-    echo -e "\n::set-output name=tags::${ftags}"
+    echo "::set-output name=tags::${ftags}"
 }
 
 function main() {

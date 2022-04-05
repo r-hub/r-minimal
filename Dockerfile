@@ -89,8 +89,4 @@ WORKDIR /root
 
 ENV DOWNLOAD_STATIC_LIBV8=1
 
-COPY calculate_tags.sh .
-
-RUN ./calculate_tags.sh ${R_VERSION} && rm calculate_tags.sh
-
 CMD ["R"]
