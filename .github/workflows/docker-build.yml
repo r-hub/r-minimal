@@ -58,7 +58,8 @@ jobs:
     - name: Calculate tags
       id: tags
       run: |
-        docker run -v `pwd`/tools:/tools \
+        cp -r tools /tmp
+        docker run -v /tmp/tools:/tools \
         rhub/r-minimal:test bash -c "/tools/calculate_tags.sh ${{ matrix.config.r }}"
 
     - name: Push
