@@ -24,6 +24,26 @@ function teardown() {
     echo "${lines[0]}" | grep -q "Tags to add: devel 4.0.0 4.0 4.0.0-devel 4.0-devel$"
 }
 
+@test "patched (arg)" {
+    source tools/calculate_tags.sh
+    run calculate next 4.1.3 "R version 4.1.3 Patched (2022-03-10 r82100)"
+    echo "${lines[0]}"
+    echo "${lines[0]}" | grep -q "Tags to add: patched 4.1.3-patched 4.1-patched$"
+}
+
+@test "patched (detect)" {
+    source tools/calculate_tags.sh
+    function get_r_version_number() {
+        echo 4.1.3;
+    }
+    function get_r_version_string() {
+        echo "R version 4.1.3 Patched (2022-03-10 r82100)"
+    }
+    run calculate next
+    echo "${lines[0]}"
+    echo "${lines[0]}" | grep -q "Tags to add: patched 4.1.3-patched 4.1-patched$"
+}
+
 @test "next (arg)" {
     source tools/calculate_tags.sh
     run calculate next 4.2.0 "R version 4.2.0 alpha (2022-04-03 r82074)"

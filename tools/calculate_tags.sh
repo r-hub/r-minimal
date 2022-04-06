@@ -54,8 +54,8 @@ fi
 # - rc (if it is)
 # - x.y.z-rc (if it is)
 # - x.y-rc (if it is)
-# - x.y.z
-# - x.y
+# - x.y.z (unless it is patched)
+# - x.y (unless it is patched)
 #
 # ## x.y.z
 # - x.y.z
@@ -116,7 +116,8 @@ function calculate_raw() {
     elif [[ "${r_version}" = "next" ]]; then
         tags="next ${r_version_number} ${r_minor}"
         if echo $vstr | grep -q '[Pp]atched'; then
-            tags="$tags patched ${r_version_number}-patched ${r_minor}-patched"
+            # drop the version number tags here, those are for the release
+            tags="patched ${r_version_number}-patched ${r_minor}-patched"
         elif echo $vstr | grep -q '[Aa]lpha'; then
             tags="$tags alpha ${r_version_number}-alpha ${r_minor}-alpha"
         elif echo $vstr | grep -q '[Bb]eta'; then
