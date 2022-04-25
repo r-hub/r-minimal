@@ -26,6 +26,7 @@ RUN tar xzf R-${R_VERSION}.tar.gz
 
 # The directory inside the tarball sometimes has different names
 
+RUN if [[ -e R-patched ]]; then	mv R-patched R-next; fi
 RUN if [[ -e R-beta ]]; then mv R-beta R-next; fi
 RUN if [[ -e R-alpha ]]; then mv R-alpha R-next; fi
 RUN if [[ -e R-rc ]]; then mv R-rc R-next; fi
