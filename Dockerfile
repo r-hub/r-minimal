@@ -15,11 +15,11 @@ RUN apk update
 RUN apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
     pcre2-dev curl-dev make perl readline-dev
 
-RUN if [[ "$R_VERSION" == "devel" ]]; then                                 \
-        wget https://stat.ethz.ch/R/daily/R-devel.tar.gz;                  \
-    elif [[ "$R_VERSION" == "next" ]]; then                                \
+RUN if [[ "$R_VERSION" == "devel" ]]; then                                   \
+        wget https://cran.r-project.org/src/base-prerelease/R-devel.tar.gz;  \
+    elif [[ "$R_VERSION" == "next" ]]; then                                  \
         wget https://cran.rstudio.com/src/base-prerelease/R-latest.tar.gz -O R-next.tar.gz; \
-    else                                                                   \
+    else                                                                     \
         wget https://cran.rstudio.com/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz; \
     fi
 RUN tar xzf R-${R_VERSION}.tar.gz
