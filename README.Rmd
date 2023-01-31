@@ -111,10 +111,10 @@ image     | R version         | tags                   | note
 R devel   | `r rv("devel")`   | `r rv_tags("devel")`   | Built daily
 R next    | `r rv("next")`    | `r rv_tags("next")`    | Built daily
 R release | `r rv("release")` | `r rv_tags("release")` |
+R 4.1.x   | `r rv("4.1")`     | `r rv_tags("4.1")`     |
 R 4.0.x   | `r rv("4.0")`     | `r rv_tags("4.0")`     |
 R 3.6.x   | `r rv("3.6")`     | `r rv_tags("3.6")`     |
 R 3.5.x   | `r rv("3.5")`     | `r rv_tags("3.5")`     |
-R 3.4.x   | `r rv("3.4")`     | `r rv_tags("3.4")`     |
 
 ## Dockerfile examples
 
