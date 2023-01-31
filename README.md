@@ -84,7 +84,7 @@ Currently we support the last patch version of the last five minor R
 versions. The `latest` tag always uses the last R release.
 
 | image     | R version   | tags                                                | note        |
-|-----------|-------------|-----------------------------------------------------|-------------|
+| --------- | ----------- | --------------------------------------------------- | ----------- |
 | R devel   | 4.3.0-devel | `devel`, `4.3.0`, `4.3`, `4.3.0-devel`, `4.3-devel` | Built daily |
 | R next    | 4.2.2-RC    | `next`, `4.2.2`, `4.2`, `rc`, `4.2.2-rc`, `4.2-rc`  | Built daily |
 | R release | 4.2.2       | `4.2.2`, `4.2`, `release`, `latest`                 |             |
