@@ -136,6 +136,7 @@ Hints on installing some popular R packages:
 | h2o        | See `examples/h2o`.                                                 | 408.0 MB                    |
 | knitr      | `installr -d knitr`                                                 | 79.2 MB                     |
 | shiny      | See `examples/shiny`.                                               | 84.1 MB                     |
+| sf         | See `examples/sf`.                                                  | 184.5 MB                    |
 | plumber    | See `examples/plumber`.                                             | 103.1 MB                    |
 | rmarkdown  | `installr -d rmarkdown`                                             | 161.3 MB (including pandoc) |
 | rstan      | See `examples/rstan`.                                               | 344.4 MB                    |
