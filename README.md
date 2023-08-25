@@ -166,45 +166,39 @@ See also the discussion at
 
 ## Known failures and workarounds
 
-  - The ps package needs the `linux-headers` Alpine package at compile
-    time. Many tidyverse packages depend on ps, so they’ll need it as
-    well:
-    
-        installr -d -t linux-headers ps
+- The ps package needs the `linux-headers` Alpine package at compile
+  time. Many tidyverse packages depend on ps, so they’ll need it as
+  well:
 
-  - The arrow package are hard to install, because Alpine Linux does not
-    have the required libraries. For the details, please see:
-    <https://github.com/r-hub/r-minimal/issues/7>
+      installr -d -t linux-headers ps
 
-  - Recent versions of the V8 package do not compile on Alpine Linux by
-    default. On x86\_64 you can install an older version, if you set and
-    environment variable that switches to a static V8 library:
-    
-        DOWNLOAD_STATIC_LIBV8=1 installr -d -t curl-dev V8@4.2.1
-    
-    However, this does not work on aarch64.
+- The arrow package are hard to install, because Alpine Linux does not
+  have the required libraries. For the details, please see:
+  <https://github.com/r-hub/r-minimal/issues/7>
 
-  - The prophet package depens on V8, through rstan, and you can use the
-    same trick to install it, on x86\_64:
-    
-        DOWNLOAD_STATIC_LIBV8=1 installr -d -t "linux-headers gfortran curl-dev" prophet V8@4.2.1
+- The V8 packagees do not compile on aarch64 machines by default. On
+  x86_64 it installs fine:
 
-  - The readxl package does not compile on Alpine Linux currently. You
-    can install this branch from GitHub:
-    
-        installr -d gaborcsardi/readxl@fix/alpine-linux
+      installr -d -t curl-dev V8
 
-  - The tidyverse package depends on readxl, so you’ll need to do the
-    same:
-    
-        installr -d -t "curl-dev libxml2-dev linux-headers gfortran" \
-            -a "libcurl libxml2" gaborcsardi/readxl@fix/alpine-linux tidyverse
+  This means that other packages that need V8 (e.g. rstan and prophet)
+  do not work on aarch64, either.
 
-  - To install the magick package, you need both the `imagemagick` and
-    `imagemagick-dev` Alpine packages, both at install time and run
-    time:
-    
-        installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
+- The readxl package does not compile on Alpine Linux currently. You can
+  install this branch from GitHub:
+
+      installr -d gaborcsardi/readxl@fix/alpine-linux
+
+- The tidyverse package depends on readxl, so you’ll need to do the
+  same:
+
+      installr -d -t "curl-dev libxml2-dev linux-headers gfortran" \
+          -a "libcurl libxml2" gaborcsardi/readxl@fix/alpine-linux tidyverse
+
+- To install the magick package, you need both the `imagemagick` and
+  `imagemagick-dev` Alpine packages, both at install time and run time:
+
+      installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
 
 ## License
 
