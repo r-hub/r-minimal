@@ -7,7 +7,7 @@ MAINTAINER "r-hub admin" admin@r-hub.io
 
 ENV _R_SHLIB_STRIP_=true
 
-ARG R_VERSION=4.3.0
+ARG R_VERSION=4.3.1
 
 WORKDIR /root
 
@@ -71,7 +71,7 @@ RUN touch /usr/local/lib/R/doc/html/R.css
 # ----------------------------------------------------------------------------
 
 FROM alpine:${ALPINE_VERSION} as final
-ARG R_VERSION=4.3.0
+ARG R_VERSION=4.3.1
 
 ENV _R_SHLIB_STRIP_=true
 ENV TZ=UTC
