@@ -172,9 +172,8 @@ See also the discussion at
     
         installr -d -t linux-headers ps
 
-  - The arrow package are hard to install, because Alpine Linux does not
-    have the required libraries. For the details, please see:
-    <https://github.com/r-hub/r-minimal/issues/7>
+  - The arrow package needs a `Makevars` file to add a link flag. See the
+    example `Dockerfile` in the `examples/arrow` directory.
 
   - The V8 packagees do not compile on aarch64 machines by default. On
     x86\_64 it installs fine:
