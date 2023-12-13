@@ -172,8 +172,8 @@ See also the discussion at
     
         installr -d -t linux-headers ps
 
-  - The arrow package needs a `Makevars` file to add a link flag. See the
-    example `Dockerfile` in the `examples/arrow` directory.
+  - The arrow package needs a `Makevars` file to add a link flag. See
+    the example `Dockerfile` in the `examples/arrow` directory.
 
   - The V8 packagees do not compile on aarch64 machines by default. On
     x86\_64 it installs fine:
