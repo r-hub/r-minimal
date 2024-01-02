@@ -3,7 +3,10 @@ ARG ALPINE_VERSION=3.16.3
 
 FROM alpine:${ALPINE_VERSION} as build
 
-MAINTAINER "r-hub admin" admin@r-hub.io
+LABEL org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.source="https://github.com/r-hub/r-minimal" \
+      org.opencontainers.image.vendor="r-hub" \
+      org.opencontainers.image.authors="r-hub admin <admin@r-hub.io>"
 
 ENV _R_SHLIB_STRIP_=true
 
