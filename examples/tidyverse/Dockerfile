@@ -1,9 +1,6 @@
-
 FROM rhub/r-minimal
 
-# Need https://github.com/tidyverse/readxl/pull/687 for readxl
-
 RUN installr -d \
-    -t "curl-dev libxml2-dev linux-headers gfortran" \
-    -a "libcurl libxml2"  \
-    gaborcsardi/readxl@fix/alpine-linux tidyverse
+    -t "curl-dev libxml2-dev linux-headers gfortran fontconfig-dev fribidi-dev harfbuzz-dev freetype-dev libpng-dev tiff-dev" \
+    -a "libcurl libxml2 fontconfig fribidi harfbuzz freetype libpng tiff libjpeg" \
+    tidyverse
