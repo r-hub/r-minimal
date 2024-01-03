@@ -169,7 +169,7 @@ sf              | See `examples/sf`.                                        | 18
 plumber         | See `examples/plumber`.                                   | 103.1 MB
 rmarkdown       | `installr -d rmarkdown`                                   | 161.3 MB (including pandoc)
 rstan           | See `examples/rstan`.                                     | 344.4 MB
-tidyverse       | See `examples/tidyverse`.                                 | 302.5 MB
+tidyverse       | See `examples/tidyverse`.                                 | 182.4 MB
 xgboost         | `installr -d -t "gfortran libexecinfo-dev" -a libexecinfo xegboost` |  59.9 MB
 
 See also the `Dockerfile`s in the `examples` directory.
@@ -211,18 +211,6 @@ See also the discussion at https://github.com/r-hub/r-minimal/issues/24
   ```
   This means that other packages that need V8 (e.g. rstan and prophet)
   do not work on aarch64, either.
-
-* The readxl package does not compile on Alpine Linux currently.
-  You can install this branch from GitHub:
-  ```
-  installr -d gaborcsardi/readxl@fix/alpine-linux
-  ```
-
-* The tidyverse package depends on readxl, so you'll need to do the same:
-  ```
-  installr -d -t "curl-dev libxml2-dev linux-headers gfortran" \
-      -a "libcurl libxml2" gaborcsardi/readxl@fix/alpine-linux tidyverse
-  ```
 
 * To install the magick package, you need both the `imagemagick` and
   `imagemagick-dev` Alpine packages, both at install time and run time:
