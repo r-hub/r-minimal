@@ -1,4 +1,3 @@
-
 ARG ALPINE_VERSION=3.16.3
 
 FROM alpine:${ALPINE_VERSION} as build
@@ -14,8 +13,7 @@ ARG R_VERSION=4.3.2
 
 WORKDIR /root
 
-RUN apk update
-RUN apk add gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
+RUN apk add --no-cache gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
     pcre2-dev curl-dev make perl readline-dev
 
 RUN if [[ "$R_VERSION" == "devel" ]]; then                                   \
