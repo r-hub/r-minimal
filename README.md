@@ -52,7 +52,6 @@ development:
   - Recommended R packages are not installed.
   - Documentation is not included.
   - No X11 support.
-  - No Java support.
   - No OpenMP support.
   - No JPEG, PNG or TIFF support.
   - No Cairo support.
