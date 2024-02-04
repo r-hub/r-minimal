@@ -34,7 +34,7 @@ jobs:
       matrix:
         example: ${{ fromJson(needs.setup-matrix.outputs.examples) }}
     runs-on: ubuntu-latest
-    name: "Example: (${{ matrix.example }})"
+    name: "examples/${{ matrix.example }}"
 
     steps:
     - uses: actions/checkout@v4
