@@ -1,6 +1,6 @@
 
 FROM rhub/r-minimal
 
-RUN installr praise
+RUN installr -d praise
 
 CMD [ "R", "--slave", "-e", "cat(praise::praise())" ]
