@@ -1,0 +1,50 @@
+name: Examples
+
+on:
+  workflow_dispatch:
+    inputs:
+      examples:
+        description: |
+          Comma-separated list of example directories. Specify "all" to use build all.
+        required: false
+        default: 'all'
+        type: string
+  schedule:
+    - cron:  '55 6 * * 6'
+
+jobs:
+  setup-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      examples: ${{ steps.setup-matrix.outputs.examples }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up matrix of examples
+      id: setup-matrix
+      run: |
+        examples=$(python .github/examples.py ${{ github.event.inputs.examples }})
+        echo "examples=$examples" >> $GITHUB_OUTPUT
+
+  examples:
+    needs: setup-matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        example: ${{ fromJson(needs.setup-matrix.outputs.examples) }}
+    runs-on: ubuntu-latest
+    name: "Example: (${{ matrix.example }})"
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build
+      uses: docker/build-push-action@v3
+      with:
+        push: false
+        platforms: linux/amd64
+        context: examples/${{ matrix.example }}
