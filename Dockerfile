@@ -41,6 +41,13 @@ RUN if echo ${R_VERSION} | grep -q "^3[.][45][.]"; then                        \
        echo "export CFLAGS=-D__MUSL__" >> R-${R_VERSION}/FLAGS;                \
     fi
 
+# Patch older R to allow libcurl 8.x.x, which is API compatible
+RUN if [[ "${R_VERSION}" != "next" ]] && [[ "${R_VERSION}" != "devel" ]] \
+           && [[ "`apk version -t ${R_VERSION} 4.3.0`" == "<" ]]; then \
+      cd R-${R_VERSION}; \
+      perl -i -0pe 's/#if LIBCURL_VERSION_MAJOR > 7\n  exit[(]1[)]/#if LIBCURL_VERSION_MAJOR > 7\n  exit(0)/gms' configure; \
+    fi
+
 RUN cd R-${R_VERSION} &&                                                 \
     . FLAGS &&                                                           \
     CXXFLAGS=-D__MUSL__  ./configure                                     \
