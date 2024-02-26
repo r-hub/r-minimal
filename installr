@@ -2,7 +2,7 @@
 set -e
 
 usage() {
-    echo "Usage: $0 [ -c | -d ] [ -a pkgs ] [ -t pkgs ] [ -r ] [ -p ] REMOTES ..."
+    echo "Usage: $0 [ -c | -d ] [ -e ] [ -a pkgs ] [ -t pkgs ] [ -r ] [ -p ] REMOTES ..."
     echo
     echo "Options:"
     echo "  -c    install C and C++ compilers and keep them"
@@ -10,6 +10,7 @@ usage() {
     echo "  -a    install Alpine packages and keep them"
     echo "  -t    install Alpine packages, temporarily"
     echo "  -p    do not remove pak after the installation (ignored if -r is given)".
+    echo "  -e    use renv to restore the renv.lock file if present."
     echo
     echo "REMOTES may be:"
     echo "  * package names from CRAN/Bioconductor, e.g.    ggplot2"
@@ -27,7 +28,8 @@ error() {
 
 unset KEEP_PAK
 
-while getopts 'pcda:t:?h' o
+
+while getopts 'pecda:t:?h' o
 do
     case $o in
         a) APKG_FIN=$OPTARG ; shift ;;
@@ -35,6 +37,7 @@ do
         c) APKG_COMPILERS=true ;;
         d) APKG_COMPILERS_TMP=true ;;
         p) KEEP_PAK=true ;;
+        e) USE_RENV=true ;;
         h|?) usage ;;
     esac
     shift
@@ -83,6 +86,19 @@ if [[ -z "$KEEP_PAK" ]]; then
     echo Removing pak
     Rscript -e 'remove.packages("pak")'
 fi
+
+
+echo --------------------------------------
+echo "Activating and Restoring renv.lock file if needed."
+if [[ "$USE_RENV" == true ]]; then
+    if [[ -f "./renv.lock" ]]; then
+    Rscript -e 'renv::consent(provided = TRUE)'
+    Rscript -e 'renv::restore()'
+    else
+    echo "renv.lock file is not present in the current directory."
+  fi
+fi
+rm -rf /tmp/Rtmp*
 
 echo
 echo --------------------------------------
