@@ -159,14 +159,15 @@ To use `renv` to restore the `renv.lock` file, use the `-e` option:
 
 ```
 FROM rhub/r-minimal
+COPY .Rprofile .Rprofile
 COPY renv renv
 COPY renv.lock .
 RUN installr -d -e
 ```
 
-If you copy the entire folder with renv, including the `activate.R`, renv will bootstrap itself with the same version as the lock and restore the packages with the proper versions.
+If you copy the entire folder with renv, including the `activate.R` and `.Rprofile`, renv will bootstrap itself with the same version as the lock and restore the packages with the proper versions.
 All the necessary compilers and libraries needed at runtime need to be installed with the `-a` and `-t` options.
-Please refer to examples/shiny-renv for an example that install shiny and rmarkdown in a container. 
+Please refer to examples/renv-shiny for an example that install shiny and rmarkdown in a container. 
 
 
 ## Popular packages:
