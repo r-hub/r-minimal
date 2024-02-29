@@ -11,7 +11,8 @@ RUN wget https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pando
 COPY . .
 
 RUN installr -d -e \
-        -t "zlib-dev"
+    -t "zlib-dev cairo-dev" \
+    -a "cairo font-liberation"
 
 
 EXPOSE 3838
