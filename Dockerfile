@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.licenses="MIT" \
 
 ENV _R_SHLIB_STRIP_=true
 
-ARG R_VERSION=4.3.2
+ARG R_VERSION=4.3.3
 
 WORKDIR /root
 
@@ -79,7 +79,7 @@ RUN touch /usr/local/lib/R/doc/html/R.css
 # ----------------------------------------------------------------------------
 
 FROM alpine:${ALPINE_VERSION} as final
-ARG R_VERSION=4.3.2
+ARG R_VERSION=4.3.3
 
 ENV _R_SHLIB_STRIP_=true
 ENV TZ=UTC
