@@ -1,10 +1,12 @@
 FROM rhub/r-minimal:4.3.2
 
+ARG TARGETARCH
+ARG PANDOC_VERSION=3.1.12
 
-RUN wget https://github.com/jgm/pandoc/releases/download/3.1.12/pandoc-3.1.12-linux-amd64.tar.gz && \
-    tar xzf pandoc-3.1.12-linux-amd64.tar.gz && \
-    mv pandoc-3.1.12/bin/* /usr/local/bin/ && \
-    rm -rf pandoc-3.1.12*
+RUN wget https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-${TARGETARCH}.tar.gz && \
+    tar xzf pandoc-*-linux-${TARGETARCH}.tar.gz && \
+    mv pandoc-*/bin/* /usr/local/bin/ && \
+    rm -rf pandoc-*
 
 COPY . .
 
