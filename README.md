@@ -22,15 +22,16 @@ The images include the `installr` tools that can install R packages from
 CRAN or GitHub:
 
     ❯ installr -h
-    Usage: ./installr [ -c | -d ] [ -a pkgs ] [ -t pkgs ] [ -r ] [ -p ] REMOTES ...
-
+    Usage: ./installr [ -c | -d ] [ -e ] [ -a pkgs ] [ -t pkgs ] [ -r ] [ -p ] REMOTES ...
+    
     Options:
       -c    install C and C++ compilers and keep them
       -d    install C and C++ compilers, temporarily
       -a    install Alpine packages and keep them
       -t    install Alpine packages, temporarily
       -p    do not remove pak after the installation (ignored if -r is given).
-
+      -e    use renv to restore the renv.lock file if present.
+    
     REMOTES may be:
       * package names from CRAN/Bioconductor, e.g.    ggplot2
       * slugs of GitHub repos, e.g.                   tidyverse/ggplot2
@@ -49,17 +50,17 @@ To keep the images minimal, they do not include a number of parts and
 features that most users would prefer to have for interactive R
 development:
 
-- Recommended R packages are not installed.
-- Documentation is not included.
-- No X11 support.
-- No OpenMP support.
-- No JPEG, PNG or TIFF support.
-- No Cairo support.
-- No Tcl/Tk support.
-- No translations, only English.
-- The image does not have C, C++ or Fortran compilers.
-- Limited time zone data: `GMT`, `UTC` and `America/New_York`, see below
-  if you need better time zone data.
+  - Recommended R packages are not installed.
+  - Documentation is not included.
+  - No X11 support.
+  - No OpenMP support.
+  - No JPEG, PNG or TIFF support.
+  - No Cairo support.
+  - No Tcl/Tk support.
+  - No translations, only English.
+  - The image does not have C, C++ or Fortran compilers.
+  - Limited time zone data: `GMT`, `UTC` and `America/New_York`, see
+    below if you need better time zone data.
 
 ## Usage
 
@@ -83,10 +84,10 @@ Currently we support the last patch version of the last five minor R
 versions. The `latest` tag always uses the last R release.
 
 | image     | R version   | tags                                                | note        |
-|-----------|-------------|-----------------------------------------------------|-------------|
+| --------- | ----------- | --------------------------------------------------- | ----------- |
 | R devel   | 4.4.0-devel | `devel`, `4.4.0`, `4.4`, `4.4.0-devel`, `4.4-devel` | Built daily |
 | R next    | 4.3.3-RC    | `next`, `4.3.3`, `4.3`, `rc`, `4.3.3-rc`, `4.3-rc`  | Built daily |
-| R release | 4.3.2       | `4.3.2`, `4.3`, `release`, `latest`                 |             |
+| R release | 4.3.3       | `4.3.3`, `4.3`, `release`, `latest`                 |             |
 | R 4.2.x   | 4.2.3       | `4.2.3`, `4.2`                                      |             |
 | R 4.1.x   | 4.1.3       | `4.1.3`, `4.1`                                      |             |
 | R 4.0.x   | 4.0.5       | `4.0.5`, `4.0`                                      |             |
@@ -120,15 +121,32 @@ Package with system requirements:
     CMD [ "R", "-q", "-e", "pingr::is_online() || stop('offline')" ]
 
 Similarly to compilers, system packages are removed after the R packages
-have been installed. If you want to keep (some of) them, use
-`installr -a` instead of `installr -t`. (You can also mix the two.)
+have been installed. If you want to keep (some of) them, use `installr
+-a` instead of `installr -t`. (You can also mix the two.)
+
+Using with renv:
+
+To use `renv` to restore the `renv.lock` file, use the `-e` option:
+
+    FROM rhub/r-minimal
+    COPY .Rprofile .Rprofile
+    COPY renv renv
+    COPY renv.lock .
+    RUN installr -d -e
+
+If you copy the entire folder with renv, including the `activate.R` and
+`.Rprofile`, renv will bootstrap itself with the same version as the
+lock and restore the packages with the proper versions. All the
+necessary compilers and libraries needed at runtime need to be installed
+with the `-a` and `-t` options. Please refer to examples/renv-shiny for
+an example that install shiny and rmarkdown in a container.
 
 ## Popular packages:
 
 Hints on installing some popular R packages:
 
-| package    | installr command                                                    | ~ image size                |
-|------------|---------------------------------------------------------------------|-----------------------------|
+| package    | installr command                                                    | \~ image size               |
+| ---------- | ------------------------------------------------------------------- | --------------------------- |
 | data.table | `installr -d data.table`                                            | 39.1 MB                     |
 | dplyr      | `installr -d dplyr`                                                 | 47.8 MB                     |
 | ggplot2    | `installr -d -t gfortran ggplot2`                                   | 82.1 MB                     |
@@ -165,27 +183,28 @@ See also the discussion at
 
 ## Known failures and workarounds
 
-- The ps package needs the `linux-headers` Alpine package at compile
-  time. Many tidyverse packages depend on ps, so they’ll need it as
-  well:
+  - The ps package needs the `linux-headers` Alpine package at compile
+    time. Many tidyverse packages depend on ps, so they’ll need it as
+    well:
+    
+        installr -d -t linux-headers ps
 
-      installr -d -t linux-headers ps
+  - The arrow package needs a `Makevars` file to add a link flag. See
+    the example `Dockerfile` in the `examples/arrow` directory.
 
-- The arrow package needs a `Makevars` file to add a link flag. See the
-  example `Dockerfile` in the `examples/arrow` directory.
+  - The V8 packagees do not compile on aarch64 machines by default. On
+    x86\_64 it installs fine:
+    
+        installr -d -t curl-dev V8
+    
+    This means that other packages that need V8 (e.g. rstan and prophet)
+    do not work on aarch64, either.
 
-- The V8 packagees do not compile on aarch64 machines by default. On
-  x86_64 it installs fine:
-
-      installr -d -t curl-dev V8
-
-  This means that other packages that need V8 (e.g. rstan and prophet)
-  do not work on aarch64, either.
-
-- To install the magick package, you need both the `imagemagick` and
-  `imagemagick-dev` Alpine packages, both at install time and run time:
-
-      installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
+  - To install the magick package, you need both the `imagemagick` and
+    `imagemagick-dev` Alpine packages, both at install time and run
+    time:
+    
+        installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
 
 ## License
 
