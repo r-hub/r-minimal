@@ -117,7 +117,7 @@ function calculate_raw() {
         tags="next ${r_version_number} ${r_minor}"
         if echo $vstr | grep -q '[Pp]atched'; then
             # drop the version number tags here, those are for the release
-            tags="patched ${r_version_number}-patched ${r_minor}-patched"
+            tags="next patched ${r_version_number}-patched ${r_minor}-patched"
         elif echo $vstr | grep -q '[Aa]lpha'; then
             tags="$tags alpha ${r_version_number}-alpha ${r_minor}-alpha"
         elif echo $vstr | grep -q '[Bb]eta'; then

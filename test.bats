@@ -28,7 +28,7 @@ function teardown() {
     source tools/calculate_tags.sh
     run calculate next 4.1.3 "R version 4.1.3 Patched (2022-03-10 r82100)"
     echo "${lines[0]}"
-    echo "${lines[0]}" | grep -q "Tags to add: patched 4.1.3-patched 4.1-patched$"
+    echo "${lines[0]}" | grep -q "Tags to add: next patched 4.1.3-patched 4.1-patched$"
 }
 
 @test "patched (detect)" {
@@ -41,7 +41,7 @@ function teardown() {
     }
     run calculate next
     echo "${lines[0]}"
-    echo "${lines[0]}" | grep -q "Tags to add: patched 4.1.3-patched 4.1-patched$"
+    echo "${lines[0]}" | grep -q "Tags to add: next patched 4.1.3-patched 4.1-patched$"
 }
 
 @test "next (arg)" {
