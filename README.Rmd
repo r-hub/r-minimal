@@ -69,7 +69,7 @@ development:
 * Recommended R packages are not installed.
 * Documentation is not included.
 * No X11 support.
-* No OpenMP support.
+* No OpenMP support. (But you can configure it for a package, see `examples/data.table`.)
 * No JPEG, PNG or TIFF support.
 * No Cairo support.
 * No Tcl/Tk support.
@@ -167,7 +167,7 @@ RUN installr -d -e
 
 If you copy the entire folder with renv, including the `activate.R` and `.Rprofile`, renv will bootstrap itself with the same version as the lock and restore the packages with the proper versions.
 All the necessary compilers and libraries needed at runtime need to be installed with the `-a` and `-t` options.
-Please refer to examples/renv-shiny for an example that install shiny and rmarkdown in a container. 
+Please refer to `examples/renv-shiny` for an example that install shiny and rmarkdown in a container.
 
 
 ## Popular packages:
@@ -176,7 +176,7 @@ Hints on installing some popular R packages:
 
 package         | installr command                                          | ~ image size
 --------------- | --------------------------------------------------------- | -------------
-data.table      | `installr -d data.table`                                  |  39.1 MB
+data.table      | See `examples/data.table` for OpenMP support              |  40.3 MB
 dplyr           | `installr -d dplyr`                                       |  47.8 MB
 ggplot2         | `installr -d -t gfortran ggplot2`                         |  82.1 MB
 h2o             | See `examples/h2o`.                                       | 408.0 MB
