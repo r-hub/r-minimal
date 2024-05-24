@@ -14,7 +14,7 @@ ARG R_VERSION=4.4.0
 WORKDIR /root
 
 RUN apk add --no-cache gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-dev \
-    pcre2-dev curl-dev make perl readline-dev
+    pcre2-dev curl-dev make perl readline-dev patch
 
 RUN if [[ "$R_VERSION" == "devel" ]]; then                                   \
         wget https://cran.r-project.org/src/base-prerelease/R-devel.tar.gz;  \
@@ -48,6 +48,13 @@ RUN if [[ "${R_VERSION}" != "next" ]] && [[ "${R_VERSION}" != "devel" ]] \
       perl -i -0pe 's/#if LIBCURL_VERSION_MAJOR > 7\n  exit[(]1[)]/#if LIBCURL_VERSION_MAJOR > 7\n  exit(0)/gms' configure; \
     fi
 
+COPY patches patches
+RUN cd R-${R_VERSION} && ls -l .. && if [ -f "../patches/R-${R_VERSION}.patch" ]; then \
+      echo Patching R;                                                     \
+      patch -p1 < "../patches/R-${R_VERSION}.patch";                       \
+    fi
+
+
 RUN cd R-${R_VERSION} &&                                                 \
     . FLAGS &&                                                           \
     CXXFLAGS=-D__MUSL__  ./configure                                     \
@@ -63,8 +70,10 @@ RUN strip -x /usr/local/lib/R/lib/*
 RUN find /usr/local/lib/R -name "*.so" -exec strip -x \{\} \;
 
 RUN rm -rf /usr/local/lib/R/library/translations
+RUN cp /usr/local/lib/R/doc/NEWS.rds /tmp
 RUN rm -rf /usr/local/lib/R/doc
 RUN mkdir -p /usr/local/lib/R/doc/html
+RUN cp /tmp/NEWS.rds /usr/local/lib/R/doc/
 RUN find /usr/local/lib/R/library -name help | xargs rm -rf
 
 RUN find /usr/local/lib/R/share/zoneinfo/America/ -mindepth 1 -maxdepth 1 \

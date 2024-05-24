@@ -1,0 +1,65 @@
+commit c06f7f2518673a75f9b36f2af9caf7b69ab4952e
+Author: luke <luke@00db46b3-68df-0310-9c12-caf00c1e9a41>
+Date:   Sun Mar 31 19:35:58 2024 +0000
+
+    readRDS() and unserialize() now signal an errorr instead of returning a PROMSXP.
+
+
+    git-svn-id: https://svn.r-project.org/R/trunk@86235 00db46b3-68df-0310-9c12-caf00c1e9a41
+
+diff --git a/src/main/serialize.c b/src/main/serialize.c
+index a389f71311..a190fbf8f3 100644
+--- a/src/main/serialize.c
++++ b/src/main/serialize.c
+@@ -2650,6 +2650,13 @@ do_serializeToConn(SEXP call, SEXP op, SEXP args, SEXP env)
+     return R_NilValue;
+ }
+
++static SEXP checkNotPromise(SEXP val)
++{
++    if (TYPEOF(val) == PROMSXP)
++	error(_("cannot return a promise (PROMSXP) object"));
++    return val;
++}
++
+ /* unserializeFromConn(conn, hook) used from readRDS().
+    It became public in R 2.13.0, and that version added support for
+    connections internally */
+@@ -2699,7 +2706,7 @@ do_unserializeFromConn(SEXP call, SEXP op, SEXP args, SEXP env)
+ 	con->close(con);
+ 	UNPROTECT(1);
+     }
+-    return ans;
++    return checkNotPromise(ans);
+ }
+
+ /*
+@@ -3330,8 +3337,8 @@ attribute_hidden SEXP
+ do_serialize(SEXP call, SEXP op, SEXP args, SEXP env)
+ {
+     checkArity(op, args);
+-    if (PRIMVAL(op) == 2) return R_unserialize(CAR(args), CADR(args));
+-
++    if (PRIMVAL(op) == 2) //return R_unserialize(CAR(args), CADR(args));
++	return checkNotPromise(R_unserialize(CAR(args), CADR(args)));
+     SEXP object, icon, type, ver, fun;
+     object = CAR(args); args = CDR(args);
+     icon = CAR(args); args = CDR(args);
+diff --git a/doc/NEWS.Rd b/doc/NEWS.Rd
+index 630c88f..3504a87 100644
+--- a/doc/NEWS.Rd
++++ b/doc/NEWS.Rd
+@@ -6,6 +6,13 @@
+ \encoding{UTF-8}
+
+ \section{\Rlogo CHANGES IN R 4.2.1}{
++  \subsection{CHANGES IN R-MINIMAL FROM \url{https://github.com/r-hub/r-minimal}}{
++    \itemize{
++      \item readRDS() and unserialize() now signal an error instead of
++      returning a PROMSXP, to fix CVE-2024-27322.
++    }
++  }
++
+   \subsection{NEW FEATURES}{
+     \itemize{
+       \item New function \code{utils::findCRANmirror()} to find out if a
