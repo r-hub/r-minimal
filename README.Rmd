@@ -124,7 +124,7 @@ image, and easily add R packages from CRAN or GitHub to it, to create a
 new image. Run `installr` from a `Dockerfile` to add R packages to
 the `r-minimal` image:
 
-```
+```dockerfile
 FROM rhub/r-minimal
 RUN installr praise
 CMD [ "R", "--slave", "-e", "cat(praise::praise())" ]
@@ -132,7 +132,7 @@ CMD [ "R", "--slave", "-e", "cat(praise::praise())" ]
 
 Package with compiled code:
 
-```
+```dockerfile
 FROM rhub/r-minimal
 RUN installr -d glue
 ```
@@ -143,7 +143,7 @@ them use `installr -c` instead of `installr -d`.
 
 Package with system requirements:
 
-```
+```dockerfile
 FROM rhub/r-minimal
 RUN installr -d -t linux-headers pingr
 CMD [ "R", "-q", "-e", "pingr::is_online() || stop('offline')" ]
@@ -157,7 +157,7 @@ Using with renv:
 
 To use `renv` to restore the `renv.lock` file, use the `-e` option:
 
-```
+```dockerfile
 FROM rhub/r-minimal
 COPY .Rprofile .Rprofile
 COPY renv renv
@@ -195,7 +195,7 @@ See also the `Dockerfile`s in the `examples` directory.
 > of these commands do not work any more, please
 > [let us know](https://github.com/r-hub/r-minimal).
 
-> See the [examples/rmarkdown/Dockerfile] for installing pandoc.
+> See the [Dockerfile](examples/rmarkdown/Dockerfile) for installing pandoc.
 
 ## Time zones
 
@@ -203,6 +203,7 @@ The image uses R's internal time zone database, but most time zones are
 removed from, to save space. The only supported ones are `GMT`, `UTC` and
 `America/New_York`. If you need more time zones, then install Alpine's
 time zone package and point R to it:
+
 ```
 apk add --no-cache tzdata
 export TZDIR=/usr/share/zoneinfo
@@ -214,6 +215,7 @@ See also the discussion at https://github.com/r-hub/r-minimal/issues/24
 
 * The ps package needs the `linux-headers` Alpine package at compile time.
   Many tidyverse packages depend on ps, so they'll need it as well:
+
   ```
   installr -d -t linux-headers ps
   ```
@@ -223,14 +225,17 @@ See also the discussion at https://github.com/r-hub/r-minimal/issues/24
 
 * The V8 packagees do not compile on aarch64 machines by default.
   On x86_64 it installs fine:
+
   ```
   installr -d -t curl-dev V8
   ```
+
   This means that other packages that need V8 (e.g. rstan and prophet)
   do not work on aarch64, either.
 
 * To install the magick package, you need both the `imagemagick` and
   `imagemagick-dev` Alpine packages, both at install time and run time:
+
   ```
   installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
   ```
