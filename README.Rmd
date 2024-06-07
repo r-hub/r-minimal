@@ -106,16 +106,16 @@ versions. The `latest` tag always uses the last R release.
 source("tools/calculate_tags.R")
 ```
 
-image     | R version         | tags                   | note
-----------| ------------------|----------------------- | -----------
-R devel   | `r rv("devel")`   | `r rv_tags("devel")`   | Built daily
-R next    | `r rv("next")`    | `r rv_tags("next")`    | Built daily
-R release | `r rv("release")` | `r rv_tags("release")` |
-R 4.3.x   | `r rv("4.3")`     | `r rv_tags("4.3")`     |
-R 4.2.x   | `r rv("4.2")`     | `r rv_tags("4.2")`     |
-R 4.1.x   | `r rv("4.1")`     | `r rv_tags("4.1")`     |
-R 4.0.x   | `r rv("4.0")`     | `r rv_tags("4.0")`     |
-R 3.6.x   | `r rv("3.6")`     | `r rv_tags("3.6")`     |
+| image     | R version         | tags                   | note        |
+|-----------|-------------------|------------------------|-------------|
+| R devel   | `r rv("devel")`   | `r rv_tags("devel")`   | Built daily |
+| R next    | `r rv("next")`    | `r rv_tags("next")`    | Built daily |
+| R release | `r rv("release")` | `r rv_tags("release")` |             |
+| R 4.3.x   | `r rv("4.3")`     | `r rv_tags("4.3")`     |             |
+| R 4.2.x   | `r rv("4.2")`     | `r rv_tags("4.2")`     |             |
+| R 4.1.x   | `r rv("4.1")`     | `r rv_tags("4.1")`     |             |
+| R 4.0.x   | `r rv("4.0")`     | `r rv_tags("4.0")`     |             |
+| R 3.6.x   | `r rv("3.6")`     | `r rv_tags("3.6")`     |             |
 
 ## Dockerfile examples
 
@@ -174,20 +174,20 @@ Please refer to `examples/renv-shiny` for an example that install shiny and rmar
 
 Hints on installing some popular R packages:
 
-package         | installr command                                          | ~ image size
---------------- | --------------------------------------------------------- | -------------
-data.table      | See `examples/data.table` for OpenMP support              |  40.3 MB
-dplyr           | `installr -d dplyr`                                       |  47.8 MB
-ggplot2         | `installr -d -t gfortran ggplot2`                         |  82.1 MB
-h2o             | See `examples/h2o`.                                       | 408.0 MB
-knitr           | `installr -d knitr`                                       |  79.2 MB
-shiny           | See `examples/shiny`.                                     |  84.1 MB
-sf              | See `examples/sf`.                                        | 184.5 MB
-plumber         | See `examples/plumber`.                                   | 103.1 MB
-rmarkdown       | `installr -d rmarkdown`                                   | 161.3 MB (including pandoc)
-rstan           | See `examples/rstan`.                                     | 344.4 MB
-tidyverse       | See `examples/tidyverse`.                                 | 182.4 MB
-xgboost         | `installr -d -t "gfortran libexecinfo-dev" -a libexecinfo xegboost` |  59.9 MB
+| package    | installr command                                                   | ~ image size                |
+|------------|--------------------------------------------------------------------|-----------------------------|
+| data.table | See [examples/data.table](examples/data.table) for OpenMP support  |  40.3 MB                    |
+| dplyr      | `installr -d dplyr`                                                |  47.8 MB                    |
+| ggplot2    | `installr -d -t gfortran ggplot2`                                  |  82.1 MB                    |
+| h2o        | See [examples/h2o](examples/h2o).                                  | 408.0 MB                    |
+| knitr      | `installr -d knitr`                                                |  79.2 MB                    |
+| shiny      | See [examples/shiny](examples/shiny).                              |  84.1 MB                    |
+| sf         | See [examples/sf](examples/sf).                                    | 184.5 MB                    |
+| plumber    | See [examples/plumber](examples/plumber).                          | 103.1 MB                    |
+| rmarkdown  | `installr -d rmarkdown`                                            | 161.3 MB (including pandoc) |
+| tidyverse  | See [examples/tidyverse](examples/tidyverse).                      | 182.4 MB                    |
+| rstan      | See [examples/rstan](examples/rstan).                              | 344.4 MB                    |
+| xgboost    | `installr -d -t "gfortran libexecinfo-dev" -a libexecinfo xgboost` |  59.9 MB                    |
 
 See also the `Dockerfile`s in the `examples` directory.
 
