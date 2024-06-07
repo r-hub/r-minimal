@@ -23,7 +23,7 @@ CRAN or GitHub:
 
     ❯ installr -h
     Usage: ./installr [ -c | -d ] [ -e ] [ -a pkgs ] [ -t pkgs ] [ -r ] [ -p ] REMOTES ...
-    
+
     Options:
       -c    install C and C++ compilers and keep them
       -d    install C and C++ compilers, temporarily
@@ -31,7 +31,7 @@ CRAN or GitHub:
       -t    install Alpine packages, temporarily
       -p    do not remove pak after the installation (ignored if -r is given).
       -e    use renv to restore the renv.lock file if present.
-    
+
     REMOTES may be:
       * package names from CRAN/Bioconductor, e.g.    ggplot2
       * slugs of GitHub repos, e.g.                   tidyverse/ggplot2
@@ -50,18 +50,18 @@ To keep the images minimal, they do not include a number of parts and
 features that most users would prefer to have for interactive R
 development:
 
-  - Recommended R packages are not installed.
-  - Documentation is not included.
-  - No X11 support.
-  - No OpenMP support. (But you can configure it for a package, see
-    `examples/data.table`.)
-  - No JPEG, PNG or TIFF support.
-  - No Cairo support.
-  - No Tcl/Tk support.
-  - No translations, only English.
-  - The image does not have C, C++ or Fortran compilers.
-  - Limited time zone data: `GMT`, `UTC` and `America/New_York`, see
-    below if you need better time zone data.
+- Recommended R packages are not installed.
+- Documentation is not included.
+- No X11 support.
+- No OpenMP support. (But you can configure it for a package, see
+  `examples/data.table`.)
+- No JPEG, PNG or TIFF support.
+- No Cairo support.
+- No Tcl/Tk support.
+- No translations, only English.
+- The image does not have C, C++ or Fortran compilers.
+- Limited time zone data: `GMT`, `UTC` and `America/New_York`, see below
+  if you need better time zone data.
 
 ## Usage
 
@@ -85,7 +85,7 @@ Currently we support the last patch version of the last five minor R
 versions. The `latest` tag always uses the last R release.
 
 | image     | R version   | tags                                                | note        |
-| --------- | ----------- | --------------------------------------------------- | ----------- |
+|-----------|-------------|-----------------------------------------------------|-------------|
 | R devel   | 4.5.0-devel | `devel`, `4.5.0`, `4.5`, `4.5.0-devel`, `4.5-devel` | Built daily |
 | R next    | 4.4.1-RC    | `next`, `4.4.1`, `4.4`, `rc`, `4.4.1-rc`, `4.4-rc`  | Built daily |
 | R release | 4.4.0       | `4.4.0`, `4.4`, `release`, `latest`                 |             |
@@ -102,14 +102,18 @@ image, and easily add R packages from CRAN or GitHub to it, to create a
 new image. Run `installr` from a `Dockerfile` to add R packages to the
 `r-minimal` image:
 
-    FROM rhub/r-minimal
-    RUN installr praise
-    CMD [ "R", "--slave", "-e", "cat(praise::praise())" ]
+``` dockerfile
+FROM rhub/r-minimal
+RUN installr praise
+CMD [ "R", "--slave", "-e", "cat(praise::praise())" ]
+```
 
 Package with compiled code:
 
-    FROM rhub/r-minimal
-    RUN installr -d glue
+``` dockerfile
+FROM rhub/r-minimal
+RUN installr -d glue
+```
 
 After the package(s) have been installed, `installr` removed the
 compilers, as these are typically not needed on the final image. If you
@@ -117,23 +121,27 @@ want to keep them use `installr -c` instead of `installr -d`.
 
 Package with system requirements:
 
-    FROM rhub/r-minimal
-    RUN installr -d -t linux-headers pingr
-    CMD [ "R", "-q", "-e", "pingr::is_online() || stop('offline')" ]
+``` dockerfile
+FROM rhub/r-minimal
+RUN installr -d -t linux-headers pingr
+CMD [ "R", "-q", "-e", "pingr::is_online() || stop('offline')" ]
+```
 
 Similarly to compilers, system packages are removed after the R packages
-have been installed. If you want to keep (some of) them, use `installr
--a` instead of `installr -t`. (You can also mix the two.)
+have been installed. If you want to keep (some of) them, use
+`installr -a` instead of `installr -t`. (You can also mix the two.)
 
 Using with renv:
 
 To use `renv` to restore the `renv.lock` file, use the `-e` option:
 
-    FROM rhub/r-minimal
-    COPY .Rprofile .Rprofile
-    COPY renv renv
-    COPY renv.lock .
-    RUN installr -d -e
+``` dockerfile
+FROM rhub/r-minimal
+COPY .Rprofile .Rprofile
+COPY renv renv
+COPY renv.lock .
+RUN installr -d -e
+```
 
 If you copy the entire folder with renv, including the `activate.R` and
 `.Rprofile`, renv will bootstrap itself with the same version as the
@@ -146,20 +154,20 @@ for an example that install shiny and rmarkdown in a container.
 
 Hints on installing some popular R packages:
 
-| package    | installr command                                                    | \~ image size               |
-| ---------- | ------------------------------------------------------------------- | --------------------------- |
-| data.table | See `examples/data.table` for OpenMP support                        | 40.3 MB                     |
-| dplyr      | `installr -d dplyr`                                                 | 47.8 MB                     |
-| ggplot2    | `installr -d -t gfortran ggplot2`                                   | 82.1 MB                     |
-| h2o        | See `examples/h2o`.                                                 | 408.0 MB                    |
-| knitr      | `installr -d knitr`                                                 | 79.2 MB                     |
-| shiny      | See `examples/shiny`.                                               | 84.1 MB                     |
-| sf         | See `examples/sf`.                                                  | 184.5 MB                    |
-| plumber    | See `examples/plumber`.                                             | 103.1 MB                    |
-| rmarkdown  | `installr -d rmarkdown`                                             | 161.3 MB (including pandoc) |
-| rstan      | See `examples/rstan`.                                               | 344.4 MB                    |
-| tidyverse  | See `examples/tidyverse`.                                           | 182.4 MB                    |
-| xgboost    | `installr -d -t "gfortran libexecinfo-dev" -a libexecinfo xegboost` | 59.9 MB                     |
+| package    | installr command                                                   | ~ image size                |
+|------------|--------------------------------------------------------------------|-----------------------------|
+| data.table | See [examples/data.table](examples/data.table) for OpenMP support  | 40.3 MB                     |
+| dplyr      | `installr -d dplyr`                                                | 47.8 MB                     |
+| ggplot2    | `installr -d -t gfortran ggplot2`                                  | 82.1 MB                     |
+| h2o        | See [examples/h2o](examples/h2o).                                  | 408.0 MB                    |
+| knitr      | `installr -d knitr`                                                | 79.2 MB                     |
+| shiny      | See [examples/shiny](examples/shiny).                              | 84.1 MB                     |
+| sf         | See [examples/sf](examples/sf).                                    | 184.5 MB                    |
+| plumber    | See [examples/plumber](examples/plumber).                          | 103.1 MB                    |
+| rmarkdown  | `installr -d rmarkdown`                                            | 161.3 MB (including pandoc) |
+| tidyverse  | See [examples/tidyverse](examples/tidyverse).                      | 182.4 MB                    |
+| rstan      | See [examples/rstan](examples/rstan).                              | 344.4 MB                    |
+| xgboost    | `installr -d -t "gfortran libexecinfo-dev" -a libexecinfo xgboost` | 59.9 MB                     |
 
 See also the `Dockerfile`s in the `examples` directory.
 
@@ -167,7 +175,8 @@ See also the `Dockerfile`s in the `examples` directory.
 > of these commands do not work any more, please [let us
 > know](https://github.com/r-hub/r-minimal).
 
-> See the \[examples/rmarkdown/Dockerfile\] for installing pandoc.
+> See the [Dockerfile](examples/rmarkdown/Dockerfile) for installing
+> pandoc.
 
 ## Time zones
 
@@ -184,28 +193,27 @@ See also the discussion at
 
 ## Known failures and workarounds
 
-  - The ps package needs the `linux-headers` Alpine package at compile
-    time. Many tidyverse packages depend on ps, so they’ll need it as
-    well:
-    
-        installr -d -t linux-headers ps
+- The ps package needs the `linux-headers` Alpine package at compile
+  time. Many tidyverse packages depend on ps, so they’ll need it as
+  well:
 
-  - The arrow package needs a `Makevars` file to add a link flag. See
-    the example `Dockerfile` in the `examples/arrow` directory.
+      installr -d -t linux-headers ps
 
-  - The V8 packagees do not compile on aarch64 machines by default. On
-    x86\_64 it installs fine:
-    
-        installr -d -t curl-dev V8
-    
-    This means that other packages that need V8 (e.g. rstan and prophet)
-    do not work on aarch64, either.
+- The arrow package needs a `Makevars` file to add a link flag. See the
+  example `Dockerfile` in the `examples/arrow` directory.
 
-  - To install the magick package, you need both the `imagemagick` and
-    `imagemagick-dev` Alpine packages, both at install time and run
-    time:
-    
-        installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
+- The V8 packagees do not compile on aarch64 machines by default. On
+  x86_64 it installs fine:
+
+      installr -d -t curl-dev V8
+
+  This means that other packages that need V8 (e.g. rstan and prophet)
+  do not work on aarch64, either.
+
+- To install the magick package, you need both the `imagemagick` and
+  `imagemagick-dev` Alpine packages, both at install time and run time:
+
+      installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
 
 ## License
 
