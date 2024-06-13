@@ -39,7 +39,7 @@ CRAN or GitHub:
       * URLs to package .tar.gz files, e.g.           url::https://x.com/pkg.tar.gz
       * path to a local directory, e.g.               local::.
 
-Recent r-minimal containers use pak (<https://github.com/r-lib/pak>) for
+Recent r-minimal containers use [pak](https://github.com/r-lib/pak) for
 R packages installation. If you have problems with pak, or need to
 install a package from a source that pak does not support, but the
 remotes package does, then install the remotes package first.
@@ -54,7 +54,7 @@ development:
   - Documentation is not included.
   - No X11 support.
   - No OpenMP support. (But you can configure it for a package, see
-    `examples/data.table`.)
+    [examples/data.table](examples/data.table).)
   - No JPEG, PNG or TIFF support.
   - No Cairo support.
   - No Tcl/Tk support.
@@ -147,8 +147,9 @@ If you copy the entire folder with renv, including the `activate.R` and
 `.Rprofile`, renv will bootstrap itself with the same version as the
 lock and restore the packages with the proper versions. All the
 necessary compilers and libraries needed at runtime need to be installed
-with the `-a` and `-t` options. Please refer to `examples/renv-shiny`
-for an example that install shiny and rmarkdown in a container.
+with the `-a` and `-t` options. Please refer to
+[examples/renv-shiny](examples/renv-shiny) for an example that install
+shiny and rmarkdown in a container.
 
 ## Popular packages:
 
@@ -200,7 +201,8 @@ See also the discussion at
         installr -d -t linux-headers ps
 
   - The arrow package needs a `Makevars` file to add a link flag. See
-    the example `Dockerfile` in the `examples/arrow` directory.
+    the example `Dockerfile` in the [examples/arrow](examples/arrow)
+    directory.
 
   - The V8 packagees do not compile on aarch64 machines by default. On
     x86\_64 it installs fine:
