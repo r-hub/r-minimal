@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.licenses="MIT" \
 
 ENV _R_SHLIB_STRIP_=true
 
-ARG R_VERSION=4.4.0
+ARG R_VERSION=4.4.1
 
 WORKDIR /root
 
