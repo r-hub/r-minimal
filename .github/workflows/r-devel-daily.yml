@@ -62,7 +62,7 @@ jobs:
       uses: docker/setup-buildx-action@v3
 
     - name: Build
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         platforms: linux/amd64
         push: false
@@ -79,7 +79,7 @@ jobs:
         rhub/r-minimal:test bash -c "/tools/calculate_tags.sh ${{ matrix.config.r }}"
 
     - name: Push
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         platforms: linux/amd64,linux/arm64
         push: true
