@@ -12,7 +12,7 @@ function teardown() {
     source tools/calculate_tags.sh
     run calculate devel 4.0.0 "R Under development (unstable) (2022-03-21 r81954)"
     echo "${lines[0]}"
-    echo "${lines[0]}" | grep -q "Tags to add: devel 4.0.0 4.0 4.0.0-devel 4.0-devel$"
+    echo "${lines[0]}" | grep -q "Tags to add: devel 4.0.0 4.0 4.0.0-devel 4.0-devel `date -I`$"
 }
 
 @test "devel (detect)" {
@@ -21,7 +21,7 @@ function teardown() {
     export -f get_r_version_number
     run calculate devel
     echo "${lines[0]}"
-    echo "${lines[0]}" | grep -q "Tags to add: devel 4.0.0 4.0 4.0.0-devel 4.0-devel$"
+    echo "${lines[0]}" | grep -q "Tags to add: devel 4.0.0 4.0 4.0.0-devel 4.0-devel `date -I`$"
 }
 
 @test "patched (arg)" {
