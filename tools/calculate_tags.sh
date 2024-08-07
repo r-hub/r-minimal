@@ -14,6 +14,7 @@ else
 fi
 
 # Potential tags:
+# - yyyy-mm-dd
 # - devel, x.y.z-devel x.y-devel
 #   current `trunk` in the R repo
 # - alpha, x.y.z-alpha, x.y-alpha
@@ -34,6 +35,7 @@ fi
 # This is how we assign tags for the various versions:
 #
 # ## devel
+# - yyyy-mm-dd
 # - devel
 # - x.y.z-devel
 # - x.y.z
@@ -111,7 +113,7 @@ function calculate_raw() {
 
     tags=""
     if [[ "${r_version}" = "devel" ]]; then
-        tags="devel ${r_version_number} ${r_minor} ${r_version_number}-devel ${r_minor}-devel"
+        tags="devel ${r_version_number} ${r_minor} ${r_version_number}-devel ${r_minor}-devel `date -I`"
 
     elif [[ "${r_version}" = "next" ]]; then
         tags="next ${r_version_number} ${r_minor}"
