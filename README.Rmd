@@ -117,6 +117,17 @@ source("tools/calculate_tags.R")
 | R 4.0.x   | `r rv("4.0")`     | `r rv_tags("4.0")`     |             |
 | R 3.6.x   | `r rv("3.6")`     | `r rv_tags("3.6")`     |             |
 
+## Daily R-devel builds
+
+We tag our daily R-devel builds with the build date.
+These images can be useful for tracking down bugs and
+regressions in R. E.g.:
+```sh
+docker run -ti ghcr.io/r-hub/r-minimal/r-minimal:2022-11-25
+```
+The tags start on 2021-07-25. `linux/arm64` images are available
+from 2022-01-13.
+
 ## Dockerfile examples
 
 One of our main goals is to be able to use `rhub/r-minimal` as a base
