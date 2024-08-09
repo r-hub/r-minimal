@@ -19,7 +19,7 @@ RUN apk add --no-cache gcc musl-dev gfortran g++ zlib-dev bzip2-dev xz-dev pcre-
 RUN if [[ "$R_VERSION" == "devel" ]]; then                                   \
         wget https://cran.r-project.org/src/base-prerelease/R-devel.tar.gz;  \
     elif [[ "$R_VERSION" == "next" ]]; then                                  \
-        wget https://cran.rstudio.com/src/base-prerelease/R-latest.tar.gz -O R-next.tar.gz; \
+        wget https://cran.rstudio.com/src/base-prerelease/R-patched.tar.gz -O R-next.tar.gz; \
     else                                                                     \
         wget https://cran.rstudio.com/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz; \
     fi
