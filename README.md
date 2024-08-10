@@ -86,7 +86,7 @@ versions. The `latest` tag always uses the last R release.
 
 | image     | R version     | tags                                                              | note        |
 | --------- | ------------- | ----------------------------------------------------------------- | ----------- |
-| R devel   | 4.5.0-devel   | `devel`, `4.5.0`, `4.5`, `4.5.0-devel`, `4.5-devel`, `2024-08-09` | Built daily |
+| R devel   | 4.5.0-devel   | `devel`, `4.5.0`, `4.5`, `4.5.0-devel`, `4.5-devel`, `2024-08-10` | Built daily |
 | R next    | 4.4.1-Patched | `next`, `patched`, `4.4.1-patched`, `4.4-patched`                 | Built daily |
 | R release | 4.4.0         | `4.4.0`, `4.4`, `release`, `latest`                               |             |
 | R 4.3.x   | 4.3.3         | `4.3.3`, `4.3`                                                    |             |
@@ -94,6 +94,18 @@ versions. The `latest` tag always uses the last R release.
 | R 4.1.x   | 4.1.3         | `4.1.3`, `4.1`                                                    |             |
 | R 4.0.x   | 4.0.5         | `4.0.5`, `4.0`                                                    |             |
 | R 3.6.x   | 3.6.3         | `3.6.3`, `3.6`                                                    |             |
+
+## Daily R-devel builds
+
+We tag our daily R-devel builds with the build date. These images can be
+useful for tracking down bugs and regressions in R. E.g.:
+
+``` sh
+docker run -ti ghcr.io/r-hub/r-minimal/r-minimal:2022-11-25
+```
+
+The tags start on 2021-07-25. `linux/arm64` images are available from
+2022-01-13.
 
 ## Dockerfile examples
 
