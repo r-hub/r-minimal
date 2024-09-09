@@ -73,7 +73,7 @@ Hub](https://hub.docker.com/repository/docker/rhub/r-minimal):
 or from [GitHub
 Packages](https://github.com/r-hub/r-minimal/packages/92808?version=latest):
 
-    docker pull docker.pkg.github.com/r-hub/r-minimal/r-minimal:latest
+    docker pull ghcr.io/r-hub/r-minimal/r-minimal:latest
 
 ## Platforms
 
