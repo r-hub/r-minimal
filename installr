@@ -69,10 +69,13 @@ if [[ $# -eq 0 ]]; then
     echo --------------------------------------
     echo No R packages to install
 else
-    echo
-    echo --------------------------------------
-    echo Installing "$@"
-    Rscript -e 'pak::pkg_install(commandArgs(TRUE))' "$@"
+    for pkg in "$@"
+    do
+        echo
+        echo --------------------------------------
+        echo Installing "$pkg"
+        Rscript -e 'pak::pkg_install(commandArgs(TRUE))' "$pkg"
+    done
 fi
 
 echo
