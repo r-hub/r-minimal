@@ -12,9 +12,9 @@ RUN apk add --no-cache --update-cache \
     installr -d \
         -t "libsodium-dev curl-dev linux-headers autoconf automake" \
         -a libsodium \
-        shiny
+        shiny Rcppcore/Rcpp
 
 # installation of `golem`
 RUN installr -d \
     -t "curl-dev openssl-dev libxml2-dev gfortran libgit2-dev" \
-    -a "libgit2" golem Rcppcore/Rcpp
+    -a "libgit2" golem
