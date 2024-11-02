@@ -3,7 +3,7 @@ FROM rhub/r-minimal
 RUN installr -d \
     -t "libsodium-dev curl-dev linux-headers" \
     -a libsodium \
-    plumber
+    plumber Rcppcore/Rcpp
 
 WORKDIR /app
 

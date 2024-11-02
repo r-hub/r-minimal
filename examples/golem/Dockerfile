@@ -17,4 +17,4 @@ RUN apk add --no-cache --update-cache \
 # installation of `golem`
 RUN installr -d \
     -t "curl-dev openssl-dev libxml2-dev gfortran libgit2-dev" \
-    -a "libgit2" golem
+    -a "libgit2" golem Rcppcore/Rcpp

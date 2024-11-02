@@ -251,6 +251,22 @@ See also the discussion at https://github.com/r-hub/r-minimal/issues/24
   installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
   ```
 
+* pingr 2.0.4 does not build on Alpine, use the dev version:
+
+  ```
+  installr -d -t linux-headers r-lib/pingr
+  ```
+
+* Rcpp 1.0.13 [does not compile with R 4.4.2](
+  https://github.com/RcppCore/Rcpp/issues/1341). Use the dev version of
+  Rcpp until a new version is released on CRAN. This affects all packages
+  that depend on Rcpp, naturally. E.g. shiny, V8, rstan, odbc, golem,
+  prophet, pagedown, plumber, sf, etc. See the updated [examples].
+
+  ```
+  installr -d Rcppcore/Rcpp
+  ```
+
 ## License
 
 See <https://www.r-project.org/Licenses/> for the R licenses

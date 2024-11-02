@@ -10,7 +10,7 @@ RUN apk add --no-cache --update-cache \
     installr -d \
         -t "openssl-dev linux-headers autoconf automake zlib-dev" \
         -a "openssl chromium chromium-chromedriver" \
-        pagedown
+        pagedown Rcppcore/Rcpp
 
 RUN wget https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-linux-amd64.tar.gz && \
     tar xzf pandoc-2.13-linux-amd64.tar.gz && \
