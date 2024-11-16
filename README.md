@@ -167,20 +167,21 @@ shiny and rmarkdown in a container.
 
 Hints on installing some popular R packages:
 
-| package    | installr command                                                   | \~ image size (uncompressed)     |
-| ---------- | ------------------------------------------------------------------ | -------------------------------- |
-| data.table | See [examples/data.table](examples/data.table) for OpenMP support  | 26.2 MB (50.0 MB)                |
-| dplyr      | `installr -d dplyr`                                                | 31.9 MB (59.7 MB)                |
-| ggplot2    | `installr -d -t gfortran ggplot2`                                  | 56.1 MB (93.5 MB)                |
-| h2o        | See [examples/h2o](examples/h2o).                                  | 354.0 MB (511.0 MB)              |
-| knitr      | `installr -d knitr`                                                | 25.3 MB (48.3 MB)                |
-| shiny      | See [examples/shiny](examples/shiny).                              | 49.8 MB (103.5 MB)               |
-| sf         | See [examples/sf](examples/sf).                                    | 79.7 MB (194.8 MB)               |
-| plumber    | See [examples/plumber](examples/plumber).                          | 56.3 MB (127.7 MB)               |
-| rmarkdown  | `installr -d rmarkdown`                                            | 58.1 MB (153.5 MB) (with pandoc) |
-| tidyverse  | See [examples/tidyverse](examples/tidyverse).                      | 113.7 MB (208.6 MB)              |
-| rstan      | See [examples/rstan](examples/rstan).                              | 92.0 MB (298.5 MB)               |
-| xgboost    | `installr -d -t "gfortran libexecinfo-dev" -a libexecinfo xgboost` | 35.5 MB (71.1 MB)                |
+| package              | installr command                                                   | ~ image size (uncompressed)      |
+|----------------------|--------------------------------------------------------------------|----------------------------------|
+| data.table           | See [examples/data.table](examples/data.table) for OpenMP support  | 26.2 MB (50.0 MB)                |
+| dplyr                | `installr -d dplyr`                                                | 31.9 MB (59.7 MB)                |
+| ggplot2              | `installr -d -t gfortran ggplot2`                                  | 56.1 MB (93.5 MB)                |
+| h2o                  | See [examples/h2o](examples/h2o).                                  | 354.0 MB (511.0 MB)              |
+| knitr                | `installr -d knitr`                                                | 25.3 MB (48.3 MB)                |
+| shiny                | See [examples/shiny](examples/shiny).                              | 49.8 MB (103.5 MB)               |
+| sf                   | See [examples/sf](examples/sf).                                    | 79.7 MB (194.8 MB)               |
+| plumber              | See [examples/plumber](examples/plumber).                          | 56.3 MB (127.7 MB)               |
+| rmarkdown            | `installr -d rmarkdown`                                            | 58.1 MB (153.5 MB) (with pandoc) |
+| tidyverse            | See [examples/tidyverse](examples/tidyverse).                      | 113.7 MB (208.6 MB)              |
+| tidyverse w/o reprex | See [examples/tidyverse-minimal](examples/tidyverse-minimal).      | 66.5 MB (115.4 MB)               |
+| rstan                | See [examples/rstan](examples/rstan).                              | 92.0 MB (298.5 MB)               |
+| xgboost              | `installr -d -t "gfortran libexecinfo-dev" -a libexecinfo xgboost` | 35.5 MB (71.1 MB)                |
 
 See also the `Dockerfile`s in the `examples` directory.
 

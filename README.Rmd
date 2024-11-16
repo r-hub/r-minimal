@@ -197,6 +197,7 @@ Hints on installing some popular R packages:
 | plumber    | See [examples/plumber](examples/plumber).                          |  56.3 MB (127.7 MB)         |
 | rmarkdown  | `installr -d rmarkdown`                                            |  58.1 MB (153.5 MB) (with pandoc) |
 | tidyverse  | See [examples/tidyverse](examples/tidyverse).                      | 113.7 MB (208.6 MB)         |
+| tidyverse w/o reprex  | See [examples/tidyverse-minimal](examples/tidyverse-minimal). | 66.5 MB (115.4 MB)    |
 | rstan      | See [examples/rstan](examples/rstan).                              |  92.0 MB (298.5 MB)         |
 | xgboost    | `installr -d -t "gfortran libexecinfo-dev" -a libexecinfo xgboost` |  35.5 MB (71.1 MB)          |
 
