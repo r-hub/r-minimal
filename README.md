@@ -86,7 +86,7 @@ versions. The `latest` tag always uses the last R release.
 
 | image     | R version     | tags                                                              | note        |
 | --------- | ------------- | ----------------------------------------------------------------- | ----------- |
-| R devel   | 4.5.0-devel   | `devel`, `4.5.0`, `4.5`, `4.5.0-devel`, `4.5-devel`, `2024-11-20` | Built daily |
+| R devel   | 4.5.0-devel   | `devel`, `4.5.0`, `4.5`, `4.5.0-devel`, `4.5-devel`, `2024-11-21` | Built daily |
 | R next    | 4.4.2-Patched | `next`, `patched`, `4.4.2-patched`, `4.4-patched`                 | Built daily |
 | R release | 4.4.2         | `4.4.2`, `4.4`, `release`, `latest`                               |             |
 | R 4.3.x   | 4.3.3         | `4.3.3`, `4.3`                                                    |             |
