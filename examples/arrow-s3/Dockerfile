@@ -11,7 +11,7 @@ ENV ARROW_S3=ON
 
 RUN mkdir -p ~/.R && echo "LDFLAGS+=-fPIC" >> ~/.R/Makevars
 RUN installr -d \
-    -t "make cmake linux-headers" \
-    -a "openssl openssl-dev curl-dev" arrow@15.0.1
+    -t "make cmake linux-headers openssl-dev curl-dev" \
+    -a "openssl libcurl" arrow@15.0.1
 RUN R -q -e 'library(arrow)'
 RUN R -q -e 'stopifnot(isTRUE(arrow::arrow_info()$capabilities[["s3"]]))'
