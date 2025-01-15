@@ -23,7 +23,7 @@ CRAN or GitHub:
 
     ❯ installr -h
     Usage: ./installr [ -c | -d ] [ -e ] [ -a pkgs ] [ -t pkgs ] [ -r ] [ -p ] REMOTES ...
-    
+
     Options:
       -c    install C and C++ compilers and keep them
       -d    install C and C++ compilers, temporarily
@@ -31,7 +31,7 @@ CRAN or GitHub:
       -t    install Alpine packages, temporarily
       -p    do not remove pak after the installation (ignored if -r is given).
       -e    use renv to restore the renv.lock file if present.
-    
+
     REMOTES may be:
       * package names from CRAN/Bioconductor, e.g.    ggplot2
       * slugs of GitHub repos, e.g.                   tidyverse/ggplot2
@@ -50,18 +50,18 @@ To keep the images minimal, they do not include a number of parts and
 features that most users would prefer to have for interactive R
 development:
 
-  - Recommended R packages are not installed.
-  - Documentation is not included.
-  - No X11 support.
-  - No OpenMP support. (But you can configure it for a package, see
-    [examples/data.table](examples/data.table).)
-  - No JPEG, PNG or TIFF support.
-  - No Cairo support.
-  - No Tcl/Tk support.
-  - No translations, only English.
-  - The image does not have C, C++ or Fortran compilers.
-  - Limited time zone data: `GMT`, `UTC` and `America/New_York`, see
-    below if you need better time zone data.
+- Recommended R packages are not installed.
+- Documentation is not included.
+- No X11 support.
+- No OpenMP support. (But you can configure it for a package, see
+  [examples/data.table](examples/data.table).)
+- No JPEG, PNG or TIFF support.
+- No Cairo support.
+- No Tcl/Tk support.
+- No translations, only English.
+- The image does not have C, C++ or Fortran compilers.
+- Limited time zone data: `GMT`, `UTC` and `America/New_York`, see below
+  if you need better time zone data.
 
 ## Usage
 
@@ -85,8 +85,8 @@ Currently we support the last patch version of the last five minor R
 versions. The `latest` tag always uses the last R release.
 
 | image     | R version     | tags                                                              | note        |
-| --------- | ------------- | ----------------------------------------------------------------- | ----------- |
-| R devel   | 4.5.0-devel   | `devel`, `4.5.0`, `4.5`, `4.5.0-devel`, `4.5-devel`, `2025-01-14` | Built daily |
+|-----------|---------------|-------------------------------------------------------------------|-------------|
+| R devel   | 4.5.0-devel   | `devel`, `4.5.0`, `4.5`, `4.5.0-devel`, `4.5-devel`, `2025-01-15` | Built daily |
 | R next    | 4.4.2-Patched | `next`, `patched`, `4.4.2-patched`, `4.4-patched`                 | Built daily |
 | R release | 4.4.2         | `4.4.2`, `4.4`, `release`, `latest`                               |             |
 | R 4.3.x   | 4.3.3         | `4.3.3`, `4.3`                                                    |             |
@@ -140,8 +140,8 @@ CMD [ "R", "-q", "-e", "pingr::is_online() || stop('offline')" ]
 ```
 
 Similarly to compilers, system packages are removed after the R packages
-have been installed. If you want to keep (some of) them, use `installr
--a` instead of `installr -t`. (You can also mix the two.)
+have been installed. If you want to keep (some of) them, use
+`installr -a` instead of `installr -t`. (You can also mix the two.)
 
 Using with renv:
 
@@ -167,8 +167,8 @@ shiny and rmarkdown in a container.
 
 Hints on installing some popular R packages:
 
-| package              | installr command                                                   | \~ image size (uncompressed)     |
-| -------------------- | ------------------------------------------------------------------ | -------------------------------- |
+| package              | installr command                                                   | ~ image size (uncompressed)      |
+|----------------------|--------------------------------------------------------------------|----------------------------------|
 | data.table           | See [examples/data.table](examples/data.table) for OpenMP support  | 26.2 MB (50.0 MB)                |
 | dplyr                | `installr -d dplyr`                                                | 31.9 MB (59.7 MB)                |
 | ggplot2              | `installr -d -t gfortran ggplot2`                                  | 56.1 MB (93.5 MB)                |
@@ -207,42 +207,41 @@ See also the discussion at
 
 ## Known failures and workarounds
 
-  - The ps package needs the `linux-headers` Alpine package at compile
-    time. Many tidyverse packages depend on ps, so they’ll need it as
-    well:
-    
-        installr -d -t linux-headers ps
+- The ps package needs the `linux-headers` Alpine package at compile
+  time. Many tidyverse packages depend on ps, so they’ll need it as
+  well:
 
-  - The arrow package needs a `Makevars` file to add a link flag. See
-    the example `Dockerfile` in the [examples/arrow](examples/arrow)
-    directory.
+      installr -d -t linux-headers ps
 
-  - The V8 packagees do not compile on aarch64 machines by default. On
-    x86\_64 it installs fine:
-    
-        installr -d -t curl-dev V8
-    
-    This means that other packages that need V8 (e.g. rstan and prophet)
-    do not work on aarch64, either.
+- The arrow package needs a `Makevars` file to add a link flag. See the
+  example `Dockerfile` in the [examples/arrow](examples/arrow)
+  directory.
 
-  - To install the magick package, you need both the `imagemagick` and
-    `imagemagick-dev` Alpine packages, both at install time and run
-    time:
-    
-        installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
+- The V8 packagees do not compile on aarch64 machines by default. On
+  x86_64 it installs fine:
 
-  - pingr 2.0.4 does not build on Alpine, use the dev version:
-    
-        installr -d -t linux-headers r-lib/pingr
+      installr -d -t curl-dev V8
 
-  - Rcpp 1.0.13 [does not compile with
-    R 4.4.2](https://github.com/RcppCore/Rcpp/issues/1341). Use the dev
-    version of Rcpp until a new version is released on CRAN. This
-    affects all packages that depend on Rcpp, naturally. E.g. shiny, V8,
-    rstan, odbc, golem, prophet, pagedown, plumber, sf, etc. See the
-    updated \[examples\].
-    
-        installr -d Rcppcore/Rcpp
+  This means that other packages that need V8 (e.g. rstan and prophet)
+  do not work on aarch64, either.
+
+- To install the magick package, you need both the `imagemagick` and
+  `imagemagick-dev` Alpine packages, both at install time and run time:
+
+      installr -d -a "imagemagick imagemagick-dev" -t "curl-dev" magick
+
+- pingr 2.0.4 does not build on Alpine, use the dev version:
+
+      installr -d -t linux-headers r-lib/pingr
+
+- Rcpp 1.0.13 [does not compile with R
+  4.4.2](https://github.com/RcppCore/Rcpp/issues/1341). Use the dev
+  version of Rcpp until a new version is released on CRAN. This affects
+  all packages that depend on Rcpp, naturally. E.g. shiny, V8, rstan,
+  odbc, golem, prophet, pagedown, plumber, sf, etc. See the updated
+  \[examples\].
+
+      installr -d Rcppcore/Rcpp
 
 ## License
 
