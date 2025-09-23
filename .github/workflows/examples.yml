@@ -19,7 +19,7 @@ jobs:
       examples: ${{ steps.setup-matrix.outputs.examples }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Set up matrix of examples
       id: setup-matrix
@@ -37,7 +37,7 @@ jobs:
     name: "examples/${{ matrix.example }}"
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
