@@ -45,6 +45,8 @@ function teardown() {
     function get_r_version_string() {
         echo "R version 4.5.1 Patched (2025-09-24 r88882)";
     }
+    export -f get_r_version_number
+    export -f get_r_version_string
     run calculate next
     echo "${lines[0]}"
     echo "${lines[0]}" | grep -q "Tags to add: next patched 4.5.1-patched 4.5-patched$"
@@ -78,6 +80,10 @@ function teardown() {
         echo 4.5.1;
     }
     export -f get_r_release_version
+    function get_r_version_string() {
+        echo "R version 4.5.1 (2025-06-13)"
+    }
+    export -f get_r_version_string
     run calculate 4.5.1 4.5.1
     echo "${lines[0]}"
     echo "${lines[0]}" | grep -q "Tags to add: 4.5.1 4.5 release latest$"
@@ -91,8 +97,12 @@ function teardown() {
     function get_r_release_version() {
         echo 4.5.1;
     }
+    function get_r_version_string() {
+        echo "R version 4.5.1 (2025-06-13)"
+    }
     export -f get_r_version_number
     export -f get_r_release_version
+    export -f get_r_version_string
     run calculate 4.5.1
     echo "${lines[0]}"
     echo "${lines[0]}" | grep -q "Tags to add: 4.5.1 4.5 release latest$"
@@ -104,6 +114,10 @@ function teardown() {
         echo 4.5.1;
     }
     export -f get_r_release_version
+    function get_r_version_string() {
+        echo "R version 4.4.3 (2025-02-28)"
+    }
+    export -f get_r_version_string
     run calculate 4.4.3 4.4.3
     echo "${lines[0]}"
     echo "${lines[0]}" | grep -q "Tags to add: 4.4.3 4.4$"
@@ -117,8 +131,12 @@ function teardown() {
     function get_r_release_version() {
         echo 4.5.1;
     }
+    function get_r_version_string() {
+        echo "R version 4.4.3 (2025-02-28)"
+    }
     export -f get_r_version_number
     export -f get_r_release_version
+    export -f get_r_version_string
     run calculate 4.4.3
     echo "${lines[0]}"
     echo "${lines[0]}" | grep -q "Tags to add: 4.4.3 4.4$"
