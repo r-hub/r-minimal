@@ -94,7 +94,6 @@ versions. The `latest` tag always uses the last R release.
 | R 4.2.x   | 4.2.3         | `4.2.3`, `4.2`                                                    |             |
 | R 4.1.x   | 4.1.3         | `4.1.3`, `4.1`                                                    |             |
 | R 4.0.x   | 4.0.5         | `4.0.5`, `4.0`                                                    |             |
-| R 3.6.x   | 3.6.3         | `3.6.3`, `3.6`                                                    |             |
 
 ## Daily R-devel builds
 
