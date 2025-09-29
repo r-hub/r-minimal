@@ -1,6 +1,6 @@
-ARG ALPINE_VERSION=3.19
+ARG ALPINE_VERSION=3.22
 
-FROM alpine:${ALPINE_VERSION} as build
+FROM alpine:${ALPINE_VERSION} AS build
 
 LABEL org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.source="https://github.com/r-hub/r-minimal" \
@@ -88,7 +88,7 @@ RUN touch /usr/local/lib/R/doc/html/R.css
 
 # ----------------------------------------------------------------------------
 
-FROM alpine:${ALPINE_VERSION} as final
+FROM alpine:${ALPINE_VERSION} AS final
 ARG R_VERSION=4.4.0
 
 ENV _R_SHLIB_STRIP_=true
