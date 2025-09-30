@@ -141,7 +141,7 @@ function calculate() {
     tags=$(calculate_raw "$@")
     echo "Tags to add: $tags"
     ftags="$(prefix_tags "$tags")"
-    echo "::set-output name=tags::${ftags}"
+    echo "${ftags}"
 }
 
 function main() {

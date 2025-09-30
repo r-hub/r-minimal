@@ -76,8 +76,8 @@ jobs:
         cat ./tags.txt
     - run: |
         # Create the manifest lists and push them to the respective registries
-        for tag in `echo ${{ needs.amd64.outputs.tags }} | tr ',' ' '`; do
-          echo docker buildx imagetools create -t $tag \
+        for tag in `cat tags.txt | tr ',' ' '`; do
+          docker buildx imagetools create -t $tag \
             ghcr.io/r-hub/r-minimal/r-minimal:${{ matrix.config.r }}-amd64 \
             ghcr.io/r-hub/r-minimal/r-minimal:${{ matrix.config.r }}-arm64;
         done
