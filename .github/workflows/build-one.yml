@@ -16,21 +16,11 @@ on:
         description: 'R version number or next or devel'
         required: true
         type: string
-    outputs:
-      image-uri:
-        description: Image URI
-        value: ${{ jobs.build.outputs.image-uri }}
-      tags:
-        description: Image tags
-        value: ${{ jobs.build.outputs.tags }}
 
 jobs:
   build:
     runs-on: ${{ inputs.runs-on }}
     name: ${{ inputs.rversion }}-${{ inputs.platform }}
-    outputs:
-      image-uri: "ghcr.io/r-hub/r-minimal/r-minimal:${{ inputs.rversion }}-${{ inputs.platform }}"
-      tags: ${{ steps.tags.outputs.tags }}
 
     steps:
     - uses: actions/checkout@v4
@@ -57,11 +47,13 @@ jobs:
         tags: rhub/r-minimal:test
 
     - name: Calculate tags
-      id: tags
       run: |
         cp -r tools /tmp
         docker run -v /tmp/tools:/tools \
         rhub/r-minimal:test bash -c "/tools/calculate_tags.sh ${{ inputs.rversion }}"
+        cp "$GITHUB_OUTPUT" tags.txt
+        cat tags.txt
+      shell: bash
 
     - name: Push
       uses: docker/build-push-action@v6
@@ -72,3 +64,9 @@ jobs:
         build-args: |
           R_VERSION=${{ inputs.rversion }}
         tags: "ghcr.io/r-hub/r-minimal/r-minimal:${{ inputs.rversion }}-${{ inputs.platform }}"
+
+    - name: Upload tags
+      uses: actions/upload-artifact@v4
+      with:
+        name: tags-${{ inputs.rversion }}-${{ inputs.platform }}
+        path: tags.txt

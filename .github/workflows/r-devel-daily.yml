@@ -67,6 +67,13 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
+    - name: Download tags
+      uses: actions/download-artifact@v5
+      with:
+        name: tags-${{ matrix.config.r }}-amd64
+        path: .
+    - run: |
+        cat ./tags.txt
     - run: |
         # Create the manifest lists and push them to the respective registries
         for tag in `echo ${{ needs.amd64.outputs.tags }} | tr ',' ' '`; do
