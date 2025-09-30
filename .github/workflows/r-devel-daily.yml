@@ -16,8 +16,7 @@ jobs:
     - id: set-matrix
       run: |
         matrix=$(echo '
-        [ { "r": "devel" },
-          { "r": "next" } ]
+        [ { "r": "devel" } ]
         ' | jq -c)
         echo "matrix=$matrix"
         echo "matrix=$matrix" >> $GITHUB_OUTPUT
