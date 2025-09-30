@@ -16,7 +16,8 @@ used as part of a bigger (web) application, or as a base image.
 Currently the (R 4.4.1) `r-minimal` image is 23.74MB compressed, and
 45.88MB uncompressed.
 
-All images use Alpine Linux.
+All current images use Alpine Linux 3.22. Older images use older Alpine
+releases.
 
 The images include the `installr` tools that can install R packages from
 CRAN or GitHub:
