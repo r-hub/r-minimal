@@ -14,7 +14,13 @@ jobs:
     - id: set-matrix
       run: |
         matrix=$(echo '
-        [ { "r": "devel" } ]
+        [ { "r": "devel" },
+          { "r": "next" },
+          { "r": "4.5.1" },
+          { "r": "4.3.3" },
+          { "r": "4.2.3" },
+          { "r": "4.1.3" },
+          { "r": "4.0.5" } ]
         ' | jq -c)
         echo "matrix=$matrix"
         echo "matrix=$matrix" >> $GITHUB_OUTPUT
@@ -65,8 +71,9 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
     - run: |
-        for tag in ${{ needs.amd64.outputs.tags }}; do
-          echo docker buildx imagetools create -t $tag \
+        # Create the manifest lists and push them to the respective registries
+        for tag in `echo ${{ needs.amd64.outputs.tags }} | tr ',' ' '`; do
+          docker buildx imagetools create -t $tag \
             ghcr.io/r-hub/r-minimal/r-minimal:${{ matrix.config.r }}-amd64 \
             ghcr.io/r-hub/r-minimal/r-minimal:${{ matrix.config.r }}-arm64;
         done
