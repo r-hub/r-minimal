@@ -22,7 +22,7 @@ jobs:
         - { r: '4.0.5' }
     steps:
     - id: set-matrix
-      run: echo "::set-output name=matrix::${{ toJson(matrix) }}"
+      run: echo "matrix=${{ toJson(matrix) }}" >> $GITHUB_OUTPUT
 
   amd64:
     needs: matrix
