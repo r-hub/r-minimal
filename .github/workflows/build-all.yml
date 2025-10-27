@@ -71,7 +71,7 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
     - name: Download tags
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v6
       with:
         name: tags-${{ matrix.config.r }}-amd64
         path: .
