@@ -23,7 +23,7 @@ jobs:
     name: ${{ inputs.rversion }}-${{ inputs.platform }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v3
