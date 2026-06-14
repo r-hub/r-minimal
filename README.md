@@ -85,16 +85,16 @@ All images are available on `linux/amd64` and `linux/arm64` platforms.
 Currently we support the last patch version of the last five minor R
 versions. The `latest` tag always uses the last R release.
 
-| image     | R version     | tags                                                              | note        |
-|-----------|---------------|-------------------------------------------------------------------|-------------|
-| R devel   | 4.7.0-devel   | `devel`, `4.7.0`, `4.7`, `4.7.0-devel`, `4.7-devel`, `2026-06-13` | Built daily |
-| R next    | 4.6.0-Patched | `next`, `patched`, `4.6.0-patched`, `4.6-patched`                 | Built daily |
-| R release | 4.6.0         | `4.6.0`, `4.6`, `release`, `latest`                               |             |
-| R 4.5.x   | 4.5.3         | `4.5.3`, `4.5`                                                    |             |
-| R 4.4.x   | 4.4.3         | `4.4.3`, `4.4`                                                    |             |
-| R 4.3.x   | 4.3.3         | `4.3.3`, `4.3`                                                    |             |
-| R 4.2.x   | 4.2.3         | `4.2.3`, `4.2`                                                    |             |
-| R 4.1.x   | 4.1.3         | `4.1.3`, `4.1`                                                    |             |
+| image     | R version   | tags                                                              | note        |
+|-----------|-------------|-------------------------------------------------------------------|-------------|
+| R devel   | 4.7.0-devel | `devel`, `4.7.0`, `4.7`, `4.7.0-devel`, `4.7-devel`, `2026-06-14` | Built daily |
+| R next    | 4.6.1-beta  | `next`, `4.6.1`, `4.6`, `beta`, `4.6.1-beta`, `4.6-beta`          | Built daily |
+| R release | 4.6.0       | `4.6.0`, `4.6`, `release`, `latest`                               |             |
+| R 4.5.x   | 4.5.3       | `4.5.3`, `4.5`                                                    |             |
+| R 4.4.x   | 4.4.3       | `4.4.3`, `4.4`                                                    |             |
+| R 4.3.x   | 4.3.3       | `4.3.3`, `4.3`                                                    |             |
+| R 4.2.x   | 4.2.3       | `4.2.3`, `4.2`                                                    |             |
+| R 4.1.x   | 4.1.3       | `4.1.3`, `4.1`                                                    |             |
 
 ## Daily R-devel builds
 
