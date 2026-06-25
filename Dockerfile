@@ -10,7 +10,7 @@ LABEL org.opencontainers.image.licenses="MIT" \
 ENV _R_SHLIB_STRIP_=true
 ENV TZ=UTC
 
-ARG R_VERSION=4.6.0
+ARG R_VERSION=4.6.1
 
 WORKDIR /root
 
