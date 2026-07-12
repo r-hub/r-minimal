@@ -1,0 +1,34 @@
+diff --git a/configure b/configure
+index 281751a..3b1f649 100755
+--- a/configure
++++ b/configure
+@@ -42413,7 +42413,7 @@ char BZ2_bzlibVersion ();
+ 
+ #endif
+ int
+-main ()
++main (void)
+ {
+ return BZ2_bzlibVersion ();
+   ;
+@@ -42474,9 +42474,11 @@ else
+ /* end confdefs.h.  */
+ 
+ #ifdef HAVE_BZLIB_H
++#include <stdlib.h> // for exit
++#include <string.h> // for strcmp
+ #include <bzlib.h>
+ #endif
+-int main() {
++int main(void) {
+     char *ver = BZ2_bzlibVersion();
+     exit(strcmp(ver, "1.0.6") < 0);
+ }
+@@ -43184,6 +43186,7 @@ else
+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ 
++#include <stdlib.h>
+ #include <string.h>
+ #include <curl/curl.h>
+ int main()
