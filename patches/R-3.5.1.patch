@@ -32,3 +32,22 @@ index 281751a..3b1f649 100755
  #include <string.h>
  #include <curl/curl.h>
  int main()
+
+diff --git a/tools/config.guess b/tools/config.guess
+index abcdef0..1234567 100755
+--- a/tools/config.guess
++++ b/tools/config.guess
+@@ -150,6 +150,13 @@ LIBC=gnu
+ 	#endif
+ 	EOF
+ 	eval `$CC_FOR_BUILD -E $dummy.c 2>/dev/null | grep '^LIBC' | sed 's, ,,g'`
++
++	# If ldd exists, use it to detect musl libc.
++	if command -v ldd >/dev/null && \
++		ldd --version 2>&1 | grep -q ^musl
++	then
++	    LIBC=musl
++	fi
+ 	;;
+ esac
+ 
