@@ -67,7 +67,7 @@ jobs:
         tags: "ghcr.io/r-hub/r-minimal/r-minimal:${{ inputs.rversion }}-${{ inputs.platform }}"
 
     - name: Upload tags
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: tags-${{ inputs.rversion }}-${{ inputs.platform }}
         path: tags.txt
