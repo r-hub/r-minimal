@@ -2,6 +2,14 @@ name: build-all.yml
 
 on:
   workflow_dispatch:
+    inputs:
+      rversions:
+        description: |
+          R versions to build, separated by commas or spaces,
+          e.g. "4.6.2" or "devel, next". Leave empty to build all.
+        required: false
+        type: string
+        default: ''
 
 jobs:
 
@@ -12,7 +20,16 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
     - id: set-matrix
+      env:
+        RVERSIONS: ${{ inputs.rversions }}
       run: |
+        if [ -n "$(echo "$RVERSIONS" | tr -d ' ,')" ]; then
+          matrix=$(echo "$RVERSIONS" | tr ',' ' ' | xargs -n1 |
+            jq -R '{ r: . }' | jq -cs)
+          echo "matrix=$matrix"
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+          exit 0
+        fi
         matrix=$(echo '
         [ { "r": "devel" },
           { "r": "next" },
